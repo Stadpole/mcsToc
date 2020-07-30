@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.model.mapper.TelemetryHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.example.model.entity.TelemetryHistory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="equipment_id" property="equipmentId" jdbcType="INTEGER" />
+    <result column="telemetry_id" property="telemetryId" jdbcType="INTEGER" />
+    <result column="raw_value" property="rawValue" jdbcType="VARCHAR" />
+    <result column="engineering_value" property="engineeringValue" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, equipment_id, telemetry_id, raw_value, engineering_value, description, time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_telemetry_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_telemetry_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.model.entity.TelemetryHistory" >
+    insert into t_telemetry_history (id, equipment_id, telemetry_id, 
+      raw_value, engineering_value, description, 
+      time)
+    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, #{telemetryId,jdbcType=INTEGER}, 
+      #{rawValue,jdbcType=VARCHAR}, #{engineeringValue,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.model.entity.TelemetryHistory" >
+    insert into t_telemetry_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="equipmentId != null" >
+        equipment_id,
+      </if>
+      <if test="telemetryId != null" >
+        telemetry_id,
+      </if>
+      <if test="rawValue != null" >
+        raw_value,
+      </if>
+      <if test="engineeringValue != null" >
+        engineering_value,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="telemetryId != null" >
+        #{telemetryId,jdbcType=INTEGER},
+      </if>
+      <if test="rawValue != null" >
+        #{rawValue,jdbcType=VARCHAR},
+      </if>
+      <if test="engineeringValue != null" >
+        #{engineeringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.model.entity.TelemetryHistory" >
+    update t_telemetry_history
+    <set >
+      <if test="equipmentId != null" >
+        equipment_id = #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="telemetryId != null" >
+        telemetry_id = #{telemetryId,jdbcType=INTEGER},
+      </if>
+      <if test="rawValue != null" >
+        raw_value = #{rawValue,jdbcType=VARCHAR},
+      </if>
+      <if test="engineeringValue != null" >
+        engineering_value = #{engineeringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.model.entity.TelemetryHistory" >
+    update t_telemetry_history
+    set equipment_id = #{equipmentId,jdbcType=INTEGER},
+      telemetry_id = #{telemetryId,jdbcType=INTEGER},
+      raw_value = #{rawValue,jdbcType=VARCHAR},
+      engineering_value = #{engineeringValue,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
