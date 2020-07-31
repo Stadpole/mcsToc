@@ -5,14 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>mcsOne</artifactId>
+    <artifactId>mcsToc</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>api</module>
         <module>consumer</module>
         <module>provider</module>
-        <module>model</module>
     </modules>
     <!-- 引入zookeeper，去除其中的log4j，否则会因为日志原因导致堆栈溢出 -->
   <dependencies>
