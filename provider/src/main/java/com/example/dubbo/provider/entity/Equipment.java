@@ -1,6 +1,7 @@
 package com.example.dubbo.provider.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 
 @Entity(name = "equipment")
-public class Equipment {
+public class Equipment implements Serializable {
     @Id
     @Column(updatable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -1,6 +1,7 @@
 package com.example.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.example.dubbo.api.common.request.UserInfoRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.UserService;
 import com.example.dubbo.consumer.common.BaseCommonController;
@@ -39,6 +40,64 @@ public class UserController extends BaseCommonController {
             if (response != null && response.getCode().equals(0)) {
                 return sendMessage("0", "success", response.getData());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sendFailMessage();
+    }
+    /**
+     * 添加用户
+     *
+     * @return
+     */
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public String insertUser(@RequestBody UserInfoRequest user) {
+        //TODO:调用服务提供方userService提供的添加用户
+        try {
+            BaseResponse response = userService.insertUser(user);
+            if(response.getCode()==0) {
+                return sendMessage("0", "success", response.getData());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sendFailMessage();
+    }
+
+    /**
+     * 更新用户
+     *
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateUser(@RequestBody UserInfoRequest user) {
+        //TODO:调用服务提供方userService提供的更新用户
+        try {
+            BaseResponse response = userService.updateUser(user);
+            if(response.getCode()==0) {
+                return sendMessage("0", "success", response.getData());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sendFailMessage();
+    }
+    /**
+     * 删除用户
+     *
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String deleteUser(@RequestParam Integer id) {
+        //TODO:调用服务提供方userService提供的删除用户
+        try {
+            BaseResponse response = userService.deletByID(id);
+            if(response.getCode()==0) {
+                return sendMessage("0", "success", response.getData());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

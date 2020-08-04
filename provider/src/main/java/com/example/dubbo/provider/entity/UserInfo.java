@@ -1,12 +1,13 @@
 package com.example.dubbo.provider.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Stadpole on 2017/12/19.
  */
 @Entity(name="t_user")
-public class UserInfo {
+public class UserInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
