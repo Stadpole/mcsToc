@@ -7,6 +7,8 @@ import com.example.dubbo.api.common.response.BaseResponse;
  * Created by Stadpole on 2020/7/29 16:24
  */
 public interface UserService {
+    //TODO:用户登录
+    public BaseResponse login(String username,String password);
 
     //TODO：查询用户列表
     public BaseResponse findUserList();

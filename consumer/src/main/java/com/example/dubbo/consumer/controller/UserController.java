@@ -24,6 +24,25 @@ public class UserController extends BaseCommonController {
     private UserService userService;
 
     /**
+     * 用户登录
+     *
+     * @return
+     */
+    @RequestMapping("/login")
+    public String login(@RequestParam String username,@RequestParam String password) {
+        BaseResponse response=new BaseResponse();
+        try {
+            response = userService.login(username,password);
+            if(response.getCode()==0) {
+                return sendMessage("0", "success", response.getData());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sendFailMessage("1",response.getData());
+    }
+    /**
      * 用户列表查询-分页查询
      *
      * @return

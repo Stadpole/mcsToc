@@ -35,6 +35,33 @@ public class UserServiceImpl implements UserService {
     private UserInfoMapper userInfoMapper;
 
     @Override
+    public BaseResponse login(String username, String password) {
+        BaseResponse response=new BaseResponse();
+        try {
+            UserInfo userInfo=userInfoRepository.findByUsername(username);
+            if(userInfo!=null){
+                if(userInfo.getPassword().equals(password)){
+                    response.setData(StatusCode.Success);
+                    response.setData("登录成功");
+                }
+                else{
+                    response.setData(StatusCode.Fail);
+                    response.setData("密码错误");
+                }
+            }
+            else {
+                response.setData(StatusCode.Fail);
+                response.setData("用户不存在");
+            }
+
+        }catch (Exception e){
+            log.error("用户登录发生异常：",e.fillInStackTrace());
+            response=new BaseResponse(StatusCode.Fail);
+        }
+        return response;
+    }
+
+    @Override
     public BaseResponse findUserList() {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
