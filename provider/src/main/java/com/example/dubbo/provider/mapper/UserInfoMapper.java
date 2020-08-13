@@ -1,6 +1,5 @@
 package com.example.dubbo.provider.mapper;
 
-import com.example.dubbo.provider.entity.Equipment;
 import com.example.dubbo.provider.entity.UserInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

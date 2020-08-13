@@ -64,6 +64,13 @@
         <logger name="org.springframework" level="INFO"/>
         <logger name="org.eclipse.jetty" level="INFO"/>
         <logger name="org.mybatis" level="INFO"/>
+<!--        <logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="off" />-->
+<!--        <logger name="org.apache.kafka.clients.consumer.internals" level="off" />-->
+        <logger name="com.kafka.ighack.Consumer"  level="DEBUG"/>
+        <logger name="org.apache.kafka" level="OFF"/>
+        <logger name="io.netty" level="OFF"/>
+        <logger name="com.lambdaworks.redis" level="OFF"/>
+
         <root level="all">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileInfo"/>

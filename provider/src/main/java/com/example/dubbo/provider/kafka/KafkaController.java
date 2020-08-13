@@ -1,10 +1,8 @@
-package com.example.dubbo.consumer.kafka;
+package com.example.dubbo.provider.kafka;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Stadpole on 2020/5/27 8:57

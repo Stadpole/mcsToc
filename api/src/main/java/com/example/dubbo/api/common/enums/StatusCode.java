@@ -9,8 +9,8 @@ package com.example.dubbo.api.common.enums;
  **/
 public enum  StatusCode {
 
-    Success(0,"成功"),
-    Fail(-1,"失败"),
+    Success(0,"success"),
+    Fail(-1,"fail"),
     InvalidParams(200,"无效的参数");
 
     private Integer code;

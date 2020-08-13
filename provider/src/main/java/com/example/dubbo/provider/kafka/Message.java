@@ -1,4 +1,4 @@
-package com.example.dubbo.consumer.kafka;
+package com.example.dubbo.provider.kafka;
 
 import java.util.Date;
 

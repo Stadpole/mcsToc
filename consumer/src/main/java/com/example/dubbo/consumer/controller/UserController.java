@@ -1,10 +1,10 @@
 package com.example.dubbo.consumer.controller;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.example.dubbo.api.common.request.UserInfoRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.UserService;
 import com.example.dubbo.consumer.common.BaseCommonController;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +32,16 @@ public class UserController extends BaseCommonController {
     public String login(@RequestParam String username,@RequestParam String password) {
         BaseResponse response=new BaseResponse();
         try {
-            response = userService.login(username,password);
-            if(response.getCode()==0) {
-                return sendMessage("0", "success", response.getData());
+            if(StringUtils.isNotBlank(username)&&StringUtils.isNotBlank(password)) {
+                response = userService.login(username, password);
+                if (StringUtils.isNotBlank(response.getMsg())&&response.getMsg().equals("success")) {
+                    return sendMessage("0", "success", response.getData());
+                }
+            }else {
+                return sendFailMessage("用户名密码不能为空",response.getData());
             }
 
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return sendFailMessage("1",response.getData());

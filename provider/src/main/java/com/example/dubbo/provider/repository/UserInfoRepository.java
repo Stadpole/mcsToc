@@ -13,11 +13,4 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
     UserInfo findByUsername(String username);
     @Query
     UserInfo findById(Integer id);
-    @Query
-    List<UserInfo> findByRole(String role);
-    @Query
-    List<UserInfo> findByJob(String job);
-    @Query
-    List<UserInfo> findByRoleAndJob(String role, String job);
-
 }
