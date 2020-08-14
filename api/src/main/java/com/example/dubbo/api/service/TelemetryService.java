@@ -9,4 +9,6 @@ import com.example.dubbo.api.common.response.BaseResponse;
 public interface TelemetryService {
     //TODO：添加遥测
     public BaseResponse insertTelemetry(TelemetryRequest telemetryRequest);
+    //TODO：实时遥测查询
+    public BaseResponse telemetryRealTime();
 }

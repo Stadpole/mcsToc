@@ -1,21 +1,15 @@
 package com.example.dubbo.provider.kafka;
 
-import java.util.Date;
-import java.util.UUID;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 @Component
+@Slf4j
 public class KfkaProducer {
-
-    private static Logger logger = LoggerFactory.getLogger(KfkaProducer.class);
 
     @Autowired(required = false)
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -32,12 +26,18 @@ public class KfkaProducer {
 //            logger.info("发送消息 ----->>>>>  message = {}", gson.toJson(message));
 //            kafkaTemplate.send("testTocpic", gson.toJson(message));
 //        }
-        kafkaTemplate.send("testTocpic", "010104_俯仰方位角转动_无转动_无_20200811:09:17:59");
-        kafkaTemplate.send("testTocpic", "010104_无_命令执行_无_20200811:09:17:59");
-        kafkaTemplate.send("testTocpic", "010104_命令执行_无转动_无_20200811:09:17:59");
-        kafkaTemplate.send("testTocpic", "010103_无_无转动_无_20200811:09:17:59");
-        kafkaTemplate.send("testTocpic", "010104_无命令_无转动_无_20200811:09:17:59");
-        kafkaTemplate.send("testTocpic", "010105_无_无转动_无_20200811:09:17:59");
+        String [] ss={"010101","010102","010103","010104","010105","010106","010107","010108","010109","010110"};
+        int random=(int)(Math.random()*10);
+        kafkaTemplate.send("testTocpic", ss[random]+"_俯仰方位角转动_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无_命令执行_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_命令执行_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无命令_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无1_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无2_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无3_无转动_无_20200811:09:17:59");
+        kafkaTemplate.send("testTocpic", ss[random]+"_无4_无转动_无_20200811:09:17:59");
 
     }
 
