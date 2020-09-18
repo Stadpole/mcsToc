@@ -51,7 +51,7 @@ public class LogAspect {
         Log logAnnotation = method.getAnnotation(Log.class);
         if (logAnnotation != null) {
             // 注解上的描述
-            operationLog.setOperation(logAnnotation.value());
+            operationLog.setOperation_detail(logAnnotation.value());
         }
         // 请求的方法名
         String className = joinPoint.getTarget().getClass().getName();
@@ -67,12 +67,12 @@ public class LogAspect {
             for (int i = 0; i < args.length; i++) {
                 params += "  " + paramNames[i] + ": " + args[i];
             }
-            operationLog.setParams(params);
+            operationLog.setParam(params);
         }
         // 获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         // 设置IP地址
-        operationLog.setIp(IPUtils.getIpAddr(request));
+        //operationLog.setIp(IPUtils.getIpAddr(request));
         // 模拟一个用户名
 
         // 保存系统日志

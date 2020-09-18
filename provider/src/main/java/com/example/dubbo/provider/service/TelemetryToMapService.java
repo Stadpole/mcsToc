@@ -20,9 +20,9 @@ import java.util.Map;
 public class TelemetryToMapService {
     @Autowired
     private StringToTelemetryUtil stringToTelemetryUtil;
-    HashMap<Integer, Telemetry> map = new HashMap<>();
+    HashMap<String, Telemetry> map = new HashMap<>();
 
-    public HashMap<Integer, Telemetry> telemetryToMap(String telemetries) {
+    public HashMap<String, Telemetry> telemetryToMap(String telemetries) {
         try {
             Telemetry telemetry = stringToTelemetryUtil.ConvertToTelemrtry(telemetries);
 //            if (map.size() == 0) {
@@ -36,9 +36,10 @@ public class TelemetryToMapService {
 //                    }
 //                }
 //            }
-            map.put(telemetry.getEquipment_id(), telemetry);
+            String key= telemetry.getEquipment_id() +telemetry.getTelemetry_name();
+            map.put(key, telemetry);
         } catch (Exception e) {
-            map.put(-1,null);
+            map.put("fail",null);
             e.printStackTrace();
         }
 //        for (Map.Entry<Integer, Telemetry> entry : map.entrySet()) {
@@ -46,7 +47,7 @@ public class TelemetryToMapService {
 //        }
         return map;
     }
-    public HashMap<Integer, Telemetry> telemetryReal() {
+    public HashMap<String, Telemetry> telemetryReal() {
         return map;
     }
 

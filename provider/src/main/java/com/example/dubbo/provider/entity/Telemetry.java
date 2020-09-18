@@ -14,11 +14,13 @@ public class Telemetry implements Serializable {
     @Column(updatable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;  //ID
-    private Integer equipment_id;  //设备ID
+    private String equipment_id;  //设备ID
     private String telemetry_name; //遥测名称
     private String engineering_value;  //工程值
     private String unit;  //单位
     private Date time;   //时间
+    @Transient
+    private Double dataTime;
 
     public Integer getId() {
         return id;
@@ -28,11 +30,11 @@ public class Telemetry implements Serializable {
         this.id = id;
     }
 
-    public Integer getEquipment_id() {
+    public String getEquipment_id() {
         return equipment_id;
     }
 
-    public void setEquipment_id(Integer equipment_id) {
+    public void setEquipment_id(String equipment_id) {
         this.equipment_id = equipment_id;
     }
 
@@ -66,5 +68,13 @@ public class Telemetry implements Serializable {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Double getDataTime() {
+        return dataTime;
+    }
+
+    public void setDataTime(Double dataTime) {
+        this.dataTime = dataTime;
     }
 }

@@ -11,6 +11,9 @@ import java.util.List;
  */
 @Mapper
 public interface ThresholdMapper {
+    @Select("select * from t_threshold where dispersed_status!=null")
+    List<Threshold> findByDispersed_status();
     @Select("select * from t_threshold")
-    List<Threshold> SelecALL();
+    List<Threshold> findALL();
 }
+

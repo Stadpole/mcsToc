@@ -13,10 +13,9 @@ import java.util.Date;
 @ToString
 public class OperationLogRequest implements Serializable {
     private Integer id;
-    private String username;//用户名
-    private String operation;//操作
+    private Integer user_id;//用户名
+    private String operation_detail;//操作详情
     private String method;//方法
-    private String params;//参数
-    private String ip;//IP
+    private String param;//参数
     private Date time;//时间
 }

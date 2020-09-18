@@ -1,13 +1,12 @@
-package com.example.dubbo.provider.service;
+package com.example.dubbo.provider.service.impl;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.example.dubbo.api.common.enums.StatusCode;
-import com.example.dubbo.api.common.request.UserInfoRequest;
+import com.example.dubbo.api.common.request.UserInfo;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.UserService;
 import com.example.dubbo.provider.common.BeanUtills;
-import com.example.dubbo.provider.entity.UserInfo;
 import com.example.dubbo.provider.mapper.UserInfoMapper;
 import com.example.dubbo.provider.repository.UserInfoRepository;
 import com.github.pagehelper.PageHelper;
@@ -17,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 /**
@@ -24,6 +24,8 @@ import java.util.List;
  */
 //@Service(protocol = {"dubbo", "rest"}, validation = "true", version = "1.0.0", timeout = 3000)
 @Service(version = "1.0.0")
+//@DubboService(version = "1.0.0")
+//@Path("user")
 public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -33,24 +35,26 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
-    @Override
+  @Override
+//    @Path("login")
+//    @GET
     public BaseResponse login(String username,String password) {
         BaseResponse response=new BaseResponse();
         try {
-            UserInfo userInfo=userInfoRepository.findByUsername(username);
+            com.example.dubbo.provider.entity.UserInfo userInfo=userInfoRepository.findByUsername(username);
             if(userInfo!=null){
                 if(userInfo.getPassword().equals(password)){
                     response.setData(StatusCode.Success);
-                    response.setData("登录成功");
+                    response.setMsg("success");
                 }
                 else{
                     response.setData(StatusCode.Fail);
-                    response.setData("密码错误");
+                    response.setMsg("密码错误");
                 }
             }
-            else {
+            else if(userInfo==null){
                 response.setData(StatusCode.Fail);
-                response.setData("用户不存在");
+                response.setMsg("用户不存在");
             }
 
         }catch (Exception e){
@@ -60,40 +64,41 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    /**
+     *根据用户名查询用户role
+     */
+
     @Override
-    public BaseResponse findUserList() {
+    public String findByUserName(String usernamne) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-            List<UserInfo> infos=userInfoRepository.findAll();
-            log.info("查询到的用户列表数据：{} ",infos);
-            response.setData(infos);
+            com.example.dubbo.provider.entity.UserInfo infos=userInfoRepository.findByUsername(usernamne);
+            log.info("根据用户名查询到的用户role：{} ",infos);
+           return infos.getId()+"_"+infos.getRole();
 
         }catch (Exception e){
-            log.error("用户列表查询服务-实际的业务实现逻辑-发生异常：",e.fillInStackTrace());
+            log.error("根据用户名查询到的用户role实际的业务实现逻辑-发生异常：",e.fillInStackTrace());
             response=new BaseResponse(StatusCode.Fail);
         }
-        return response;
+        return null;
     }
+
+
     @Override
-    public BaseResponse pageUser(Integer page, Integer size, String role, String job) {
+//    @Path("pageUser")
+    public BaseResponse pageUser(Integer page, Integer size, String role) {
         //TODO:分页组件-第pageNo页，pageSize条数目数据
         PageHelper.startPage(page,size);
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-            List<UserInfo> userInfo=null;
-            if(StringUtils.isNotBlank(role)&&StringUtils.isNotBlank(job)){
-               userInfo=  userInfoMapper.SelectRoleAndJob(role,job);
-            }
-            else if(StringUtils.isNotBlank(role)&&!StringUtils.isNotBlank(job)){
-                userInfo= userInfoMapper.SelectRole(role);
-            }
-            else if(!StringUtils.isNotBlank(role)&&StringUtils.isNotBlank(job)){
-                userInfo= userInfoMapper.SelectJob(job);
+            List<com.example.dubbo.provider.entity.UserInfo> userInfo=null;
+            if(StringUtils.isNotBlank(role)){
+               userInfo=  userInfoMapper.SelectRole(role);
             }
             else{
                 userInfo = userInfoMapper.SelecALL();
             }
-            PageInfo<UserInfo> pageInfo = new PageInfo(userInfo);
+            PageInfo<com.example.dubbo.provider.entity.UserInfo> pageInfo = new PageInfo(userInfo);
 
             response.setData(pageInfo);
 
@@ -104,11 +109,12 @@ public class UserServiceImpl implements UserService {
         return response;
     }
     @Override
-    public BaseResponse insertUser(UserInfoRequest user) {
+//    @Path("insert")
+    public BaseResponse insertUser(UserInfo user) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
             if(user!=null) {
-                UserInfo userInfo=new UserInfo();
+                com.example.dubbo.provider.entity.UserInfo userInfo=new com.example.dubbo.provider.entity.UserInfo();
                 BeanUtils.copyProperties(user, userInfo);
                userInfoRepository.save(userInfo);
                 log.info("新增用户：{} ", userInfo);
@@ -122,10 +128,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+//    @Path("delete")
     public BaseResponse deletByID(Integer id) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-            UserInfo user=userInfoRepository.findById(id);
+            com.example.dubbo.provider.entity.UserInfo user=userInfoRepository.findById(id);
             if(user!=null) {
                 userInfoRepository.delete(user);
                 log.info("删除用户：{} ", user);
@@ -139,11 +146,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BaseResponse updateUser(UserInfoRequest user) {
+//    @Path("update")
+    public BaseResponse updateUser(UserInfo user) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
             if(user.getId()!=null) {
-                UserInfo userInfo=userInfoRepository.findById(user.getId());
+                com.example.dubbo.provider.entity.UserInfo userInfo=userInfoRepository.findById(user.getId());
                 BeanUtills.copyProperties(user, userInfo);
                 userInfoRepository.save(userInfo);
                 log.info("更新用户：{} ", userInfo);

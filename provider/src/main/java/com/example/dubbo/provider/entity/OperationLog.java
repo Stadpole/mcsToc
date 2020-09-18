@@ -12,11 +12,10 @@ public class OperationLog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String username;//用户名
-    private String operation;//操作
+    private Integer user_id;//用户名
+    private String operation_detail;//操作详情
     private String method;//方法
-    private String params;//参数
-    private String ip;//IP
+    private String param;//参数
     private Date time;//时间
 
     public Integer getId() {
@@ -27,20 +26,13 @@ public class OperationLog implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+
+    public String getOperation_detail() {
+        return operation_detail;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
+    public void setOperation_detail(String operation_detail) {
+        this.operation_detail = operation_detail;
     }
 
     public String getMethod() {
@@ -51,20 +43,20 @@ public class OperationLog implements Serializable {
         this.method = method;
     }
 
-    public String getParams() {
-        return params;
+    public Integer getUser_id() {
+        return user_id;
     }
 
-    public void setParams(String params) {
-        this.params = params;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
-    public String getIp() {
-        return ip;
+    public String getParam() {
+        return param;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setParam(String param) {
+        this.param = param;
     }
 
     public Date getTime() {

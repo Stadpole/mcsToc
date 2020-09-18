@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.example.dubbo.api.common.request.ThresholdRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.ThresholdService;
+import com.example.dubbo.consumer.common.AOP.MyLog;
 import com.example.dubbo.consumer.common.BaseCommonController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,7 @@ public class ThresholdController extends BaseCommonController {
      *
      * @return
      */
+    @MyLog(value = "新增门限")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String insertThreshold(@RequestBody ThresholdRequest thresholdRequest) {
         //TODO:调用服务提供方thresholdService提供的添加门限
@@ -68,6 +70,7 @@ public class ThresholdController extends BaseCommonController {
      *
      * @return
      */
+    @MyLog(value = "更新门限信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateThreshold(@RequestBody ThresholdRequest thresholdRequest) {
         //TODO:调用服务提供方userService提供的更新门限
@@ -87,6 +90,7 @@ public class ThresholdController extends BaseCommonController {
      *
      * @return
      */
+    @MyLog(value = "删除门限信息")
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteThreshold(@RequestParam Integer id) {
         //TODO:调用服务提供方userService提供的删除门限

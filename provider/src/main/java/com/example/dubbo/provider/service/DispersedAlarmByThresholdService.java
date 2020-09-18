@@ -5,10 +5,8 @@ import com.example.dubbo.provider.common.utils.StringToTelemetryUtil;
 import com.example.dubbo.provider.entity.Alarm;
 import com.example.dubbo.provider.entity.Telemetry;
 import com.example.dubbo.provider.entity.Threshold;
-import com.example.dubbo.provider.mapper.EquipmentDetailMapper;
 import com.example.dubbo.provider.mapper.ThresholdMapper;
 import com.example.dubbo.provider.repository.AlarmRepository;
-import com.example.dubbo.provider.repository.ThresholdRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +21,11 @@ import java.util.List;
  */
 @Component
 @Slf4j
-public class AlarmByThresholdService {
+public class DispersedAlarmByThresholdService {
 
     @Autowired
     private StringToTelemetryUtil stringToTelemetryUtil;
-    @Autowired
-    private ThresholdRepository thresholdRepository;
 
-    @Autowired(required = false)
-    private EquipmentDetailMapper equipmentDetailMapper;
     @Autowired
     private AlarmUtils alarmUtils;
 
@@ -39,15 +33,18 @@ public class AlarmByThresholdService {
     private AlarmRepository alarmRepository;
 
     @Autowired(required = false)
+    private ThresholdMapper thresholdMapper;
+
+    @Autowired(required = false)
     private KafkaTemplate<String, String> kafkaTemplate;
 
     private Gson gson = new GsonBuilder().create();
 
-    //TODO：遥测根据门限判断告警
-    public String alarmByThreshold(String telemetries) {
+    //TODO：遥测离散告警判断
+    public String dispersedAlarm(String telemetries) {
         try {
             Telemetry telemetry = stringToTelemetryUtil.ConvertToTelemrtry(telemetries);
-            List<Threshold> lists = thresholdRepository.findAll();
+            List<Threshold> lists = thresholdMapper.findByDispersed_status();
             if (!lists.isEmpty() && telemetry != null && telemetry.getEquipment_id() != null && telemetry.getEngineering_value() != null) {
 
                 for (Threshold threshold : lists) {
@@ -60,43 +57,12 @@ public class AlarmByThresholdService {
 
                         Alarm alarm=new Alarm();
                         String value=telemetry.getEngineering_value();
-                        Double temp = Double.valueOf(value);
-                        //TODO:高红
-                        if (temp >= threshold.getHigh_red()) {
+
+                        //TODO:告警判断
+                        if (value.equals(threshold.getDispersed_status())) {
                             //TODO：生成告警
-                           alarm=alarmUtils.alarmUtils(threshold,telemetry,"高红告警", threshold.getHigh_red());
+                           alarm=alarmUtils.dispersedAlarmUtils(threshold,telemetry,"状态告警+门限值：", threshold.getDispersed_status());
                           //TODO:告警信息持久化
-                            alarmRepository.save(alarm);
-                            //TODO：告警实时推送
-                            kafkaTemplate.send("Alarm", gson.toJson(alarm));
-
-
-                        }//TODO:高黄
-                        else if (temp >= threshold.getHigh_yellow()&&temp<threshold.getHigh_red()) {
-                            //TODO：生成告警
-                            alarm=alarmUtils.alarmUtils(threshold,telemetry,"高黄告警", threshold.getHigh_yellow());
-                            //TODO:告警信息持久化
-                            alarmRepository.save(alarm);
-                            //TODO：告警实时推送
-                            kafkaTemplate.send("Alarm", gson.toJson(alarm));
-
-                        }
-                        //TODO:低红
-                        else if (temp <= threshold.getLow_red()) {
-
-                            //TODO：生成告警
-                            alarm=alarmUtils.alarmUtils(threshold,telemetry,"低红告警", threshold.getLow_red());
-                            //TODO:告警信息持久化
-                            alarmRepository.save(alarm);
-                            //TODO：告警实时推送
-                            kafkaTemplate.send("Alarm", gson.toJson(alarm));
-
-                        }
-                        //TODO:低黄
-                        else if (temp <= threshold.getLow_yellow() && temp > threshold.getLow_red()) {
-                            //TODO：生成告警
-                            alarm=alarmUtils.alarmUtils(threshold,telemetry,"低黄告警", threshold.getLow_yellow());
-                            //TODO:告警信息持久化
                             alarmRepository.save(alarm);
                             //TODO：告警实时推送
                             kafkaTemplate.send("Alarm", gson.toJson(alarm));

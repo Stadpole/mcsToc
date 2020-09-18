@@ -1,14 +1,14 @@
 package com.example.dubbo.provider.repository;
-import com.example.dubbo.provider.entity.Threshold;
+
+import com.example.dubbo.provider.entity.Alarm;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 /**
  * Created by Stadpole on 2020/9/21.
  */
-public interface ThresholdRepository extends JpaRepository<Threshold, String> {
+public interface AlarmRepository extends JpaRepository<Alarm, String> {
     @Query
-    Threshold findById(Integer id);
+    Alarm findById(Integer Id);
+
 }

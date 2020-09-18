@@ -16,11 +16,12 @@ public class StringToTelemetryUtil {
         DateFormat format = new SimpleDateFormat("yyyyMMdd:HH:mm:ss");
         String[] strings = s.split("_");
         Telemetry telemetry = new Telemetry();
-        telemetry.setEquipment_id(Integer.valueOf(strings[0]));
+        telemetry.setEquipment_id(strings[0]);
         telemetry.setTelemetry_name(strings[1]);
         telemetry.setEngineering_value(strings[2]);
         telemetry.setUnit(strings[3]);
         telemetry.setTime(format.parse(strings[4]));
         return telemetry;
     }
+
 }

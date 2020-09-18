@@ -13,7 +13,7 @@ import java.util.Date;
 @ToString
 public class TelemetryRequest implements Serializable {
     private Integer id;  //ID
-    private Integer equipment_id;  //设备ID
+    private String equipment_id;  //设备ID
     private String telemetry_name; //遥测名称
     private String engineering_value;  //工程值
     private String unit;  //单位

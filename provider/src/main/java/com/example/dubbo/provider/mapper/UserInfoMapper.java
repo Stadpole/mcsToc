@@ -17,12 +17,12 @@ public interface UserInfoMapper {
             " (#{username},#{password},#{item.description},#{item.raw},#{item.engineer},#{item.time})</script>")
     void insert(@Param(value = "result") List<UserInfo> result);
 
-    @Select("select * from t_user where role like CONCAT('%',#{role},'%')")
+    @Select("select id,username,role,description from t_user where role like CONCAT('%',#{role},'%')")
     List<UserInfo> SelectRole(String role);
     @Select("select * from t_user where job like CONCAT('%',#{job},'%')")
     List<UserInfo> SelectJob(String job);
     @Select("select * from t_user where role like CONCAT('%',#{role},'%') and job like CONCAT('%',#{job},'%')")
     List<UserInfo> SelectRoleAndJob(String role,String job);
-    @Select("select * from t_user")
+    @Select("select id,username,role,description from t_user")
     List<UserInfo> SelecALL();
 }

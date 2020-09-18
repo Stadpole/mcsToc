@@ -1,4 +1,4 @@
-package com.example.dubbo.provider.kafka;
+package com.example.dubbo.provider.service.kafka;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

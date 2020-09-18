@@ -1,4 +1,4 @@
-package com.example.dubbo.provider.service;
+package com.example.dubbo.provider.service.impl;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
@@ -8,7 +8,6 @@ import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.ThresholdService;
 import com.example.dubbo.provider.common.BeanUtills;
 import com.example.dubbo.provider.entity.Threshold;
-import com.example.dubbo.provider.entity.UserInfo;
 import com.example.dubbo.provider.mapper.ThresholdMapper;
 import com.example.dubbo.provider.repository.ThresholdRepository;
 import com.github.pagehelper.PageHelper;
@@ -40,9 +39,9 @@ public class ThresholdServiceImpl implements ThresholdService {
         PageHelper.startPage(page,size);
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-            List<Threshold> thresholds = thresholdMapper.SelecALL();
+            List<Threshold> thresholds = thresholdMapper.findALL();
 
-            PageInfo<UserInfo> pageInfo = new PageInfo(thresholds);
+            PageInfo<Threshold> pageInfo = new PageInfo(thresholds);
 
             response.setData(pageInfo);
         }catch (Exception e){
@@ -58,7 +57,7 @@ public class ThresholdServiceImpl implements ThresholdService {
         try {
             if(threshold!=null) {
                 Threshold entity=new Threshold();
-                BeanUtils.copyProperties(threshold, entity);
+                BeanUtills.copyProperties(threshold, entity);
                 thresholdRepository.save(entity);
                 log.info("新增门限：{} ", entity);
             }

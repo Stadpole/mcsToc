@@ -28,6 +28,7 @@ public class BaseCommonController {
 	public  String sendSuccessMessage(String message,Object data) {
 		return sendMessage("true", message, data);
 	}
+
 	public  String sendFailMessage() {
 		return sendMessage("false", "FAILED", null);
 	}
@@ -49,10 +50,11 @@ public class BaseCommonController {
 		return Object2Json(result,DATE_TIME);
 		//return  result.toString();
 	}
-	public  String sendNumber(String s1,String s2){
+	public  String sendLoginMessage(String status,String uid,String role){
 		Map<String, Object> result = new HashMap<>();
-		result.put("keyToHg", s1);
-		result.put("keyToCk", s2);
+		result.put("status", status);
+		result.put("uid", uid);
+		result.put("role", role);
 		return Object2Json(result,DATE_TIME);
 		//return  result.toString();
 	}

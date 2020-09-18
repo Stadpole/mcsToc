@@ -1,5 +1,7 @@
 package com.example.dubbo.provider.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,14 +14,20 @@ import java.util.Date;
 public class Threshold implements Serializable {
     @Id
     @Column(updatable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;  //门限ID
-    private Integer equipment_id;  //设备ID
+    private String equipment_id;  //设备ID
     private String equipment_name; //设备名称
+    private String station_name;//设备站名
+    private String telemetry_name;//遥测点名称
     private Double high_red;  //高红门限
     private Double low_red;  //低红门限
     private Double high_yellow;  //高黄门限
     private Double low_yellow;  //低黄门限
+    private String dispersed_status;//离散量遥测状态
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(updatable = false )
     private Date time;   //时间
 
     public Integer getId() {
@@ -30,11 +38,11 @@ public class Threshold implements Serializable {
         this.id = id;
     }
 
-    public Integer getEquipment_id() {
+    public String getEquipment_id() {
         return equipment_id;
     }
 
-    public void setEquipment_id(Integer equipment_id) {
+    public void setEquipment_id(String equipment_id) {
         this.equipment_id = equipment_id;
     }
 
@@ -84,5 +92,29 @@ public class Threshold implements Serializable {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getStation_name() {
+        return station_name;
+    }
+
+    public void setStation_name(String station_name) {
+        this.station_name = station_name;
+    }
+
+    public String getTelemetry_name() {
+        return telemetry_name;
+    }
+
+    public void setTelemetry_name(String telemetry_name) {
+        this.telemetry_name = telemetry_name;
+    }
+
+    public String getDispersed_status() {
+        return dispersed_status;
+    }
+
+    public void setDispersed_status(String dispersed_status) {
+        this.dispersed_status = dispersed_status;
     }
 }

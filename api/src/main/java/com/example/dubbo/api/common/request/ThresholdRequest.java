@@ -13,11 +13,14 @@ import java.util.Date;
 @ToString
 public class ThresholdRequest implements Serializable {
     private Integer id;  //门限ID
-    private Integer equipment_id;  //设备ID
+    private String equipment_id;  //设备ID
     private String equipment_name; //设备名称
+    private String station_name;//设备站名
+    private String telemetry_name;//遥测点名称
     private Double high_red;  //高红门限
     private Double low_red;  //低红门限
     private Double high_yellow;  //高黄门限
     private Double low_yellow;  //低黄门限
+    private String dispersed_status;//离散量遥测状态
     private Date time;   //时间
 }

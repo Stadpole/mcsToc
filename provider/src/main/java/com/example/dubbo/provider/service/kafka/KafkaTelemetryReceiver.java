@@ -1,6 +1,8 @@
-package com.example.dubbo.provider.kafka;
+package com.example.dubbo.provider.service.kafka;
 
 
+import com.example.dubbo.provider.service.AlarmByThresholdService;
+import com.example.dubbo.provider.service.DispersedAlarmByThresholdService;
 import com.example.dubbo.provider.service.TelemetryToDBService;
 import com.example.dubbo.provider.service.TelemetryToMapService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,14 +13,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class KafkaReceiver {
+public class KafkaTelemetryReceiver {
     @Autowired
     private TelemetryToDBService telemetryToDB;
 
     @Autowired
     private TelemetryToMapService telemetryToMapUtil;
+    @Autowired
+    private AlarmByThresholdService alarmByThreshold;
+    @Autowired
+    private DispersedAlarmByThresholdService dispersedAlarm;
 
-    @KafkaListener(topics = {"testTocpic"})
+    @KafkaListener(topics = {"22"})
     public void listen(String telemetries) {
         try {
             log.info("遥测接收成功==================== telemetries+ " + telemetries);
@@ -27,6 +33,9 @@ public class KafkaReceiver {
             //TODO：实时遥测存放在内存表
             telemetryToMapUtil.telemetryToMap(telemetries);
             //TODO:根据门限判断告警
+            alarmByThreshold.alarmByThreshold(telemetries);
+            //TODO：离散量告警
+            dispersedAlarm.dispersedAlarm(telemetries);
 
 
         } catch (Exception e) {
