@@ -7,7 +7,6 @@ import com.example.dubbo.api.common.request.OperationLogRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.OperationLogService;
 import com.example.dubbo.provider.entity.OperationLog;
-import com.example.dubbo.provider.entity.UserInfo;
 import com.example.dubbo.provider.mapper.OperationLogMapper;
 import com.example.dubbo.provider.repository.OperationLogRepository;
 import com.github.pagehelper.PageHelper;

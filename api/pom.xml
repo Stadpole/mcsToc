@@ -40,5 +40,6 @@
             <version>1.0.0.Final</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 </project>

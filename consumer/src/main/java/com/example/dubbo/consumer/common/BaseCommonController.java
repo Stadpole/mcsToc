@@ -43,11 +43,12 @@ public class BaseCommonController {
 	}
 	
 	public  String sendMessage(String status,String message,Object data){
+		Gson gson=new Gson();
 		Map<String, Object> result = new HashMap<>();
 		result.put("status", status);
 		result.put("message", message);
 		result.put("data", data);
-		return Object2Json(result,DATE_TIME);
+		return gson.toJson(result);
 		//return  result.toString();
 	}
 	public  String sendLoginMessage(String status,String uid,String role){

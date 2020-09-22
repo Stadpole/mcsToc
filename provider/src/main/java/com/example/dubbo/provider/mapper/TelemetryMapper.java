@@ -46,4 +46,48 @@ public interface TelemetryMapper {
             "ORDER BY\n" +
             "  time;")
     List<Telemetry> SelectByMinute(String equipment_id, String telemetry_name,Date startTime, Date endTime);
+    //TODO：回放 按每小时采一次点
+    @Select("SELECT\n" +
+            "  engineering_value,time\n" +
+            "FROM\n" +
+            "  t_telemetry_history\n" +
+            "WHERE\n" +
+            "  id in(\n" +
+            "    SELECT\n" +
+            "      max(id)\n" +
+            "    FROM\n" +
+            "      t_telemetry_history\n" +
+            "    WHERE\n" +
+            "\t\t equipment_id=#{equipment_id} AND\n" +
+            "\t\t telemetry_name=#{telemetry_name} AND\n" +
+            "\t\t unix_timestamp(time) BETWEEN unix_timestamp(#{startTime})\n" +
+            "      AND unix_timestamp(#{endTime})\n" +
+            "    GROUP BY\n" +
+            "\t\t CEILING((unix_timestamp(time)/3600))\n" +
+            "  )\n" +
+            "ORDER BY\n" +
+            "  time;")
+    List<Telemetry> SelectByHour(String equipment_id, String telemetry_name,Date startTime, Date endTime);
+    //TODO：回放 按每2小时采一次点
+    @Select("SELECT\n" +
+            "  engineering_value,time\n" +
+            "FROM\n" +
+            "  t_telemetry_history\n" +
+            "WHERE\n" +
+            "  id in(\n" +
+            "    SELECT\n" +
+            "      max(id)\n" +
+            "    FROM\n" +
+            "      t_telemetry_history\n" +
+            "    WHERE\n" +
+            "\t\t equipment_id=#{equipment_id} AND\n" +
+            "\t\t telemetry_name=#{telemetry_name} AND\n" +
+            "\t\t unix_timestamp(time) BETWEEN unix_timestamp(#{startTime})\n" +
+            "      AND unix_timestamp(#{endTime})\n" +
+            "    GROUP BY\n" +
+            "\t\t CEILING((unix_timestamp(time)/7200))\n" +
+            "  )\n" +
+            "ORDER BY\n" +
+            "  time;")
+    List<Telemetry> SelectBy2Hour(String equipment_id, String telemetry_name,Date startTime, Date endTime);
 }

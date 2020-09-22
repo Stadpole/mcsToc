@@ -3,7 +3,8 @@ package com.example.dubbo.provider.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.example.dubbo.api.common.enums.StatusCode;
-import com.example.dubbo.api.common.request.UserInfo;
+import com.example.dubbo.api.common.request.UserInfoRequest;
+import com.example.dubbo.provider.entity.UserInfo;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.UserService;
 import com.example.dubbo.provider.common.BeanUtills;
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public BaseResponse login(String username,String password) {
         BaseResponse response=new BaseResponse();
         try {
-            com.example.dubbo.provider.entity.UserInfo userInfo=userInfoRepository.findByUsername(username);
+            UserInfo userInfo=userInfoRepository.findByUsername(username);
             if(userInfo!=null){
                 if(userInfo.getPassword().equals(password)){
                     response.setData(StatusCode.Success);
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
     public String findByUserName(String usernamne) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-            com.example.dubbo.provider.entity.UserInfo infos=userInfoRepository.findByUsername(usernamne);
+           UserInfo infos=userInfoRepository.findByUsername(usernamne);
             log.info("根据用户名查询到的用户role：{} ",infos);
            return infos.getId()+"_"+infos.getRole();
 
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(page,size);
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-            List<com.example.dubbo.provider.entity.UserInfo> userInfo=null;
+            List<UserInfo> userInfo=null;
             if(StringUtils.isNotBlank(role)){
                userInfo=  userInfoMapper.SelectRole(role);
             }
@@ -110,11 +111,11 @@ public class UserServiceImpl implements UserService {
     }
     @Override
 //    @Path("insert")
-    public BaseResponse insertUser(UserInfo user) {
+    public BaseResponse insertUser(UserInfoRequest user) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
             if(user!=null) {
-                com.example.dubbo.provider.entity.UserInfo userInfo=new com.example.dubbo.provider.entity.UserInfo();
+               UserInfo userInfo=new UserInfo();
                 BeanUtils.copyProperties(user, userInfo);
                userInfoRepository.save(userInfo);
                 log.info("新增用户：{} ", userInfo);
@@ -132,7 +133,7 @@ public class UserServiceImpl implements UserService {
     public BaseResponse deletByID(Integer id) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-            com.example.dubbo.provider.entity.UserInfo user=userInfoRepository.findById(id);
+           UserInfo user=userInfoRepository.findById(id);
             if(user!=null) {
                 userInfoRepository.delete(user);
                 log.info("删除用户：{} ", user);
@@ -147,11 +148,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
 //    @Path("update")
-    public BaseResponse updateUser(UserInfo user) {
+    public BaseResponse updateUser(UserInfoRequest user) {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
             if(user.getId()!=null) {
-                com.example.dubbo.provider.entity.UserInfo userInfo=userInfoRepository.findById(user.getId());
+                UserInfo userInfo=userInfoRepository.findById(user.getId());
                 BeanUtills.copyProperties(user, userInfo);
                 userInfoRepository.save(userInfo);
                 log.info("更新用户：{} ", userInfo);

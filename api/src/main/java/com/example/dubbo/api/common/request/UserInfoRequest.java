@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Data
 @ToString
-public class UserInfo implements Serializable {
+public class UserInfoRequest implements Serializable {
     private Integer id;
     private String username;//帐号
     private String password; //密码;

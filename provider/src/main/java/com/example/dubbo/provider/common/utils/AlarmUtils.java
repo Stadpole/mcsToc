@@ -67,8 +67,8 @@ public class AlarmUtils {
             //TODO:告警信息解析
             String[] strings = netLinkAlarm.split(";");
             alarm.setTime(format.parse(strings[0]));
-            alarm.setEquipment_id(strings[0]);
-            alarm.setWarning_detail(strings[1] + "  " + strings[2]);
+            alarm.setEquipment_id(strings[1]);
+            alarm.setWarning_detail(strings[2]);
 
           //  alarm.setTime(format.parse(strings[3]));
             alarm.setType("链路告警");

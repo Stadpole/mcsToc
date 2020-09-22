@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class KafkaTelemetryReceiver {
+public class KafkaTeleControlReceiver {
     @Autowired
     private TelemetryToDBService telemetryToDB;
 

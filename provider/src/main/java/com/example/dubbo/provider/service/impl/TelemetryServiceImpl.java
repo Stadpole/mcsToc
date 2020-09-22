@@ -79,7 +79,7 @@ public class TelemetryServiceImpl implements TelemetryService {
      * 7天以内数据约60万按秒回放
      * 7天-1个月约250万数据按分钟回放
      * 1个月-12个月按小时回放
-     * 1年以上按天回放
+     * 1年以上按每2小时回放
      */
     @Override
     public BaseResponse telemetryHistory(String equipment_id, String telemetry_name, String startTime1, String endTime1) {
@@ -91,17 +91,26 @@ public class TelemetryServiceImpl implements TelemetryService {
 
             Integer minute=dateUtils.getBetweenMinutes(startTime,endTime);
             if (minute<=10080) {
-                //TODO:7天以内按秒回放
+               /**
+                * 7天以内按秒回放
+                * */
                 telemetryList = telemetryMapper.SelectByIdAndTime(equipment_id, telemetry_name, startTime, endTime);
             }else if(minute>10080&&minute<=43200){
-                //TODO:7天-1个月按分钟回放
+                /**
+                 * 7天-1个月按分钟回放
+                 * */
                 telemetryList = telemetryMapper.SelectByMinute(equipment_id, telemetry_name, startTime, endTime);
+            }else if(minute>43200&&minute<=518400){
+                /**
+                 * 1个月-12个月按小时回放
+                 * */
+                telemetryList = telemetryMapper.SelectByHour(equipment_id, telemetry_name, startTime, endTime);
+            }else if(minute>518400){
+                /**
+                 * 1年以上按每2小时回放
+                 * */
+                telemetryList = telemetryMapper.SelectBy2Hour(equipment_id, telemetry_name, startTime, endTime);
             }
-
-//            for(Telemetry t:telemetryList){
-//                long ts = t.getTime().getTime()/1000;
-//                t.setDataTime(ts);
-//            }
 
             for(Telemetry t:telemetryList){
                 Calendar calendar = Calendar.getInstance();

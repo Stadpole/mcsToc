@@ -13,14 +13,14 @@ import java.text.SimpleDateFormat;
 @Component
 public class StringToTelemetryUtil {
     public Telemetry ConvertToTelemrtry(String s) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyyMMdd:HH:mm:ss");
-        String[] strings = s.split("_");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String[] strings = s.split(";");
         Telemetry telemetry = new Telemetry();
-        telemetry.setEquipment_id(strings[0]);
-        telemetry.setTelemetry_name(strings[1]);
-        telemetry.setEngineering_value(strings[2]);
-        telemetry.setUnit(strings[3]);
-        telemetry.setTime(format.parse(strings[4]));
+        telemetry.setTime(format.parse(strings[0]));
+        telemetry.setEquipment_id(strings[1]);
+        telemetry.setTelemetry_name(strings[2]);
+        telemetry.setEngineering_value(strings[3]);
+        telemetry.setUnit(strings[4]);
         return telemetry;
     }
 

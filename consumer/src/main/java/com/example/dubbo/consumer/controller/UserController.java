@@ -1,11 +1,12 @@
 package com.example.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.example.dubbo.api.common.request.UserInfo;
+import com.example.dubbo.api.common.request.UserInfoRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.UserService;
 import com.example.dubbo.consumer.common.AOP.MyLog;
 import com.example.dubbo.consumer.common.BaseCommonController;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -73,6 +74,7 @@ public class UserController extends BaseCommonController {
         }
         //TODO:调用服务提供方userService提供的列表查询-分页查询功能
         try {
+            Gson gson=new Gson();
             BaseResponse response = userService.pageUser(page, size, role);
             if (response != null && response.getCode().equals(0)) {
                return sendMessage("0", "success", response.getData());
@@ -90,7 +92,7 @@ public class UserController extends BaseCommonController {
     @MyLog(value = "新增用户")
     @ApiOperation(value = "新增用户信息", notes = "新增用户信息")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String insertUser(@RequestBody UserInfo user) {
+    public String insertUser(@RequestBody UserInfoRequest user) {
         //TODO:调用服务提供方userService提供的添加用户
         try {
             BaseResponse response = userService.insertUser(user);
@@ -112,7 +114,7 @@ public class UserController extends BaseCommonController {
     @MyLog(value = "更新用户信息")
     @ApiOperation(value = "更新用户信息", notes = "根据用户id更新用户信息，必须包括id")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateUser(@RequestBody UserInfo user) {
+    public String updateUser(@RequestBody UserInfoRequest user) {
         //TODO:调用服务提供方userService提供的更新用户
         try {
             BaseResponse response = userService.updateUser(user);

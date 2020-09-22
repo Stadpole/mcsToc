@@ -1,6 +1,6 @@
 package com.example.dubbo.api.service;
 
-import com.example.dubbo.api.common.request.UserInfo;
+import com.example.dubbo.api.common.request.UserInfoRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
 
 /**
@@ -22,11 +22,11 @@ public interface UserService {
      BaseResponse pageUser(Integer page, Integer size, String role);
 
     //TODO：添加用户
-     BaseResponse insertUser(UserInfo user);
+     BaseResponse insertUser(UserInfoRequest user);
 
     //TODO：通过id删除用户
      BaseResponse deletByID(Integer id);
 
     //TODO：更新用户
-     BaseResponse updateUser(UserInfo user);
+     BaseResponse updateUser(UserInfoRequest user);
 }
