@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dubbo.provider.dao.EquipmentDetailDao">
+
+    <resultMap type="com.example.dubbo.api.entity.EquipmentDetail" id="TEquipmentDetailMap">
+        <result property="equipmentId" column="equipment_id" jdbcType="VARCHAR"/>
+        <result property="stationName" column="station_name" jdbcType="VARCHAR"/>
+        <result property="equipmentName" column="equipment_name" jdbcType="VARCHAR"/>
+        <result property="driverName" column="driver_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TEquipmentDetailMap">
+        select
+          equipment_id, station_name, equipment_name, driver_name
+        from mcs.t_equipment_detail
+        where equipment_id = #{equipmentId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TEquipmentDetailMap">
+        select
+          equipment_id, station_name, equipment_name, driver_name
+        from mcs.t_equipment_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TEquipmentDetailMap">
+        select
+          equipment_id, station_name, equipment_name, driver_name
+        from mcs.t_equipment_detail
+        <where>
+            <if test="equipmentId != null and equipmentId != ''">
+                and equipment_id = #{equipmentId}
+            </if>
+            <if test="stationName != null and stationName != ''">
+                and station_name = #{stationName}
+            </if>
+            <if test="equipmentName != null and equipmentName != ''">
+                and equipment_name = #{equipmentName}
+            </if>
+            <if test="driverName != null and driverName != ''">
+                and driver_name = #{driverName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="equipmentId" useGeneratedKeys="true">
+        insert into mcs.t_equipment_detail(station_name, equipment_name, driver_name)
+        values (#{stationName}, #{equipmentName}, #{driverName})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mcs.t_equipment_detail
+        <set>
+            <if test="stationName != null and stationName != ''">
+                station_name = #{stationName},
+            </if>
+            <if test="equipmentName != null and equipmentName != ''">
+                equipment_name = #{equipmentName},
+            </if>
+            <if test="driverName != null and driverName != ''">
+                driver_name = #{driverName},
+            </if>
+        </set>
+        where equipment_id = #{equipmentId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mcs.t_equipment_detail where equipment_id = #{equipmentId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dubbo.provider.dao.TelemetryDao">
+
+    <resultMap type="com.example.dubbo.api.entity.Telemetry" id="TTelemetryHistoryMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="equipmentId" column="equipment_id" jdbcType="INTEGER"/>
+        <result property="telemetryName" column="telemetry_name" jdbcType="VARCHAR"/>
+        <result property="engineeringValue" column="engineering_value" jdbcType="VARCHAR"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="time" column="time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TTelemetryHistoryMap">
+        select
+          id, equipment_id, telemetry_name, engineering_value, unit, time
+        from mcs.t_telemetry_history
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TTelemetryHistoryMap">
+        select
+          id, equipment_id, telemetry_name, engineering_value, unit, time
+        from mcs.t_telemetry_history
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TTelemetryHistoryMap">
+        select
+          id, equipment_id, telemetry_name, engineering_value, unit, time
+        from mcs.t_telemetry_history
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="equipmentId != null">
+                and equipment_id = #{equipmentId}
+            </if>
+            <if test="telemetryName != null and telemetryName != ''">
+                and telemetry_name = #{telemetryName}
+            </if>
+            <if test="engineeringValue != null and engineeringValue != ''">
+                and engineering_value = #{engineeringValue}
+            </if>
+            <if test="unit != null and unit != ''">
+                and unit = #{unit}
+            </if>
+            <if test="time != null">
+                and time = #{time}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into mcs.t_telemetry_history(equipment_id, telemetry_name, engineering_value, unit, time)
+        values (#{equipmentId}, #{telemetryName}, #{engineeringValue}, #{unit}, #{time})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update mcs.t_telemetry_history
+        <set>
+            <if test="equipmentId != null">
+                equipment_id = #{equipmentId},
+            </if>
+            <if test="telemetryName != null and telemetryName != ''">
+                telemetry_name = #{telemetryName},
+            </if>
+            <if test="engineeringValue != null and engineeringValue != ''">
+                engineering_value = #{engineeringValue},
+            </if>
+            <if test="unit != null and unit != ''">
+                unit = #{unit},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from mcs.t_telemetry_history where id = #{id}
+    </delete>
+
+</mapper>
