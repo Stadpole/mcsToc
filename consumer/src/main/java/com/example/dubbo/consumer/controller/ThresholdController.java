@@ -6,6 +6,7 @@ import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.service.ThresholdService;
 import com.example.dubbo.consumer.common.AOP.MyLog;
 import com.example.dubbo.consumer.common.BaseCommonController;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +36,10 @@ public class ThresholdController extends BaseCommonController {
         }
         //TODO:调用服务提供方thresholdService提供的列表查询-分页查询功能
         try {
+            Gson gson=new Gson();
             BaseResponse response = thresholdService.pageThreshold(page, size);
             if (response != null && response.getCode().equals(0)) {
-                return sendMessage("0", "success", response.getData());
+                gson.toJson(response.getData());
             }
         } catch (Exception e) {
             e.printStackTrace();

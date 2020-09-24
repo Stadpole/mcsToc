@@ -4,6 +4,7 @@ package com.example.dubbo.consumer.common;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
  * description: author: LiPeng
  **/
 
-public class BaseCommonController {
+public class BaseCommonController implements Serializable {
 	public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";//"yyyy-MM-dd HH:mm:ss";
 
 	public  String sendSuccessMessage() {
@@ -43,11 +44,12 @@ public class BaseCommonController {
 	}
 	
 	public  String sendMessage(String status,String message,Object data){
+		Gson gson=new Gson();
 		Map<String, Object> result = new HashMap<>();
 		result.put("status", status);
 		result.put("message", message);
 		result.put("data", data);
-		return Object2Json(result,DATE_TIME);
+		return gson.toJson(result);
 		//return  result.toString();
 	}
 	public  String sendLoginMessage(String status,String uid,String role){
@@ -55,6 +57,7 @@ public class BaseCommonController {
 		result.put("status", status);
 		result.put("uid", uid);
 		result.put("role", role);
+
 		return Object2Json(result,DATE_TIME);
 		//return  result.toString();
 	}

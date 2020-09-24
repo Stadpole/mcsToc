@@ -1,11 +1,12 @@
 package com.example.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.example.dubbo.api.common.request.UserInfo;
 import com.example.dubbo.api.common.response.BaseResponse;
+import com.example.dubbo.api.entity.UserInfo;
 import com.example.dubbo.api.service.UserService;
 import com.example.dubbo.consumer.common.AOP.MyLog;
 import com.example.dubbo.consumer.common.BaseCommonController;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -73,9 +74,11 @@ public class UserController extends BaseCommonController {
         }
         //TODO:调用服务提供方userService提供的列表查询-分页查询功能
         try {
+            Gson gson=new Gson();
             BaseResponse response = userService.pageUser(page, size, role);
             if (response != null && response.getCode().equals(0)) {
-               return sendMessage("0", "success", response.getData());
+                log.info("用户列表+"+response.getData()+"----");
+               return sendMessage("0","success",response.getData());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,5 +149,6 @@ public class UserController extends BaseCommonController {
         }
         return sendFailMessage();
     }
+
 }
 
