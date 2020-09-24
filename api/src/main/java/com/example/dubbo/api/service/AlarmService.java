@@ -1,7 +1,7 @@
 package com.example.dubbo.api.service;
 
-import com.example.dubbo.api.common.request.AlarmRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
+import com.example.dubbo.api.entity.Alarm;
 
 /**
  * Created by Stadpole on 2020/7/29 16:24
@@ -16,5 +16,5 @@ public interface AlarmService {
 
     //TODO：更新告警状态
 //    @Path("4")
-    public BaseResponse updateAlarm(AlarmRequest alarmRequest);
+    public BaseResponse updateAlarm(Alarm alarmRequest);
 }
