@@ -3,6 +3,7 @@ package com.example.dubbo.provider.dao;
 import com.example.dubbo.api.entity.Alarm;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,10 +35,10 @@ public interface AlarmDao {
     /**
      * 通过实体作为筛选条件查询
      *
-     * @param alarm 实例对象
+     * @param equipment_id 设备id
      * @return 对象列表
      */
-    List<Alarm> queryAll(Alarm alarm);
+    List<Alarm> queryAll(String equipment_id,Date startTime,Date endTime);
 
     /**
      * 新增数据

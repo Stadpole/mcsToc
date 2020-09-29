@@ -1,7 +1,7 @@
 package com.example.dubbo.api.service;
 
-import com.example.dubbo.api.common.request.OperationLogRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
+import com.example.dubbo.api.entity.OperationLog;
 
 /**
  * Created by Stadpole on 2020/7/29 16:24
@@ -9,9 +9,15 @@ import com.example.dubbo.api.common.response.BaseResponse;
 //@Path("operation")
 public interface OperationLogService {
 
-    //TODO：分页查询日志列表
-//    @Path("1")
+  /**
+   * 分页查询操作日志，可通过用户id筛选
+   *
+   * */
      BaseResponse pageOperationLog(Integer page, Integer size,Integer userId);
-     void save(OperationLogRequest operationLogRequest);
+    /**
+     * 操作日志保存
+     *
+     * */
+     void save(OperationLog operationLogRequest);
 
 }

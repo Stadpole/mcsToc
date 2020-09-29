@@ -2,7 +2,7 @@ package com.example.dubbo.consumer.common.AOP;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
-import com.example.dubbo.api.common.request.OperationLogRequest;
+import com.example.dubbo.api.entity.OperationLog;
 import com.example.dubbo.api.service.OperationLogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -39,7 +39,7 @@ public class SysLogAspect {
     public void saveSysLog(JoinPoint joinPoint) {
         System.out.println("切面。。。。。");
         //保存日志
-        OperationLogRequest operationLog = new OperationLogRequest();
+        OperationLog operationLog = new OperationLog();
 
         //从切面织入点处通过反射机制获取织入点处的方法
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -51,7 +51,7 @@ public class SysLogAspect {
         if (myLog != null) {
             String value = myLog.value();
 
-            operationLog.setOperation_detail(value);//保存获取的操作
+            operationLog.setOperationDetail(value);//保存获取的操作
 
         }
 
@@ -84,9 +84,6 @@ public class SysLogAspect {
 
         operationLog.setTime(new Date());
         //获取用户名
-
-
-
         //调用service保存SysLog实体类到数据库
         operationLogService.save(operationLog);
     }

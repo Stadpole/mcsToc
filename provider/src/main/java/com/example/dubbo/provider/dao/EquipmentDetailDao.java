@@ -1,6 +1,6 @@
 package com.example.dubbo.provider.dao;
 
-import com.example.dubbo.provider.entity.TEquipmentDetail;
+import com.example.dubbo.api.entity.EquipmentDetail;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface EquipmentDetailDao {
      * @param equipmentId 主键
      * @return 实例对象
      */
-    TEquipmentDetail queryById(String equipmentId);
+    EquipmentDetail queryById(String equipmentId);
 
     /**
      * 查询指定行数据
@@ -27,7 +27,7 @@ public interface EquipmentDetailDao {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<TEquipmentDetail> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<EquipmentDetail> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
 
     /**
@@ -36,7 +36,7 @@ public interface EquipmentDetailDao {
      * @param tEquipmentDetail 实例对象
      * @return 对象列表
      */
-    List<TEquipmentDetail> queryAll(TEquipmentDetail tEquipmentDetail);
+    List<EquipmentDetail> queryAll(EquipmentDetail tEquipmentDetail);
 
     /**
      * 新增数据
@@ -44,7 +44,7 @@ public interface EquipmentDetailDao {
      * @param tEquipmentDetail 实例对象
      * @return 影响行数
      */
-    int insert(TEquipmentDetail tEquipmentDetail);
+    int insert(EquipmentDetail tEquipmentDetail);
 
     /**
      * 修改数据
@@ -52,7 +52,7 @@ public interface EquipmentDetailDao {
      * @param tEquipmentDetail 实例对象
      * @return 影响行数
      */
-    int update(TEquipmentDetail tEquipmentDetail);
+    int update(EquipmentDetail tEquipmentDetail);
 
     /**
      * 通过主键删除数据

@@ -1,6 +1,6 @@
 package com.example.dubbo.provider.dao;
 
-import com.example.dubbo.provider.entity.TTelecontrol;
+import com.example.dubbo.api.entity.TTelecontrol;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 

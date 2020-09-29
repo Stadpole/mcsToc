@@ -22,13 +22,13 @@ public class Threshold implements Serializable {
     
     private String telemetryName;
     
-    private Object highRed;
+    private Double highRed;
     
-    private Object lowRed;
+    private Double lowRed;
     
-    private Object highYellow;
+    private Double  highYellow;
     
-    private Object lowYellow;
+    private Double lowYellow;
     
     private String dispersedStatus;
     
@@ -75,35 +75,35 @@ public class Threshold implements Serializable {
         this.telemetryName = telemetryName;
     }
 
-    public Object getHighRed() {
+    public Double getHighRed() {
         return highRed;
     }
 
-    public void setHighRed(Object highRed) {
+    public void setHighRed(Double highRed) {
         this.highRed = highRed;
     }
 
-    public Object getLowRed() {
+    public Double getLowRed() {
         return lowRed;
     }
 
-    public void setLowRed(Object lowRed) {
+    public void setLowRed(Double lowRed) {
         this.lowRed = lowRed;
     }
 
-    public Object getHighYellow() {
+    public Double getHighYellow() {
         return highYellow;
     }
 
-    public void setHighYellow(Object highYellow) {
+    public void setHighYellow(Double highYellow) {
         this.highYellow = highYellow;
     }
 
-    public Object getLowYellow() {
+    public Double getLowYellow() {
         return lowYellow;
     }
 
-    public void setLowYellow(Object lowYellow) {
+    public void setLowYellow(Double lowYellow) {
         this.lowYellow = lowYellow;
     }
 

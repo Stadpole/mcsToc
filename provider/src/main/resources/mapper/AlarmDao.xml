@@ -38,39 +38,14 @@
           id, warning_detail, equipment_id, type, time, status_point, latched_status, open, ack, ack_time, operator
         from mcs.t_alarm
         <where>
-            <if test="id != null">
-                and id = #{id}
+            <if test="equipment_id != null and equipment_id != ''">
+               and equipment_id = #{equipment_id}
             </if>
-            <if test="warningDetail != null and warningDetail != ''">
-                and warning_detail = #{warningDetail}
+            <if test="startTime != null  and endTime != null">
+                and time between #{startTime} and #{endTime}
             </if>
-            <if test="equipmentId != null and equipmentId != ''">
-                and equipment_id = #{equipmentId}
-            </if>
-            <if test="type != null and type != ''">
-                and type = #{type}
-            </if>
-            <if test="time != null">
-                and time = #{time}
-            </if>
-            <if test="statusPoint != null and statusPoint != ''">
-                and status_point = #{statusPoint}
-            </if>
-            <if test="latchedStatus != null and latchedStatus != ''">
-                and latched_status = #{latchedStatus}
-            </if>
-            <if test="open != null and open != ''">
-                and open = #{open}
-            </if>
-            <if test="ack != null and ack != ''">
-                and ack = #{ack}
-            </if>
-            <if test="ackTime != null and ackTime != ''">
-                and ack_time = #{ackTime}
-            </if>
-            <if test="operator != null and operator != ''">
-                and operator = #{operator}
-            </if>
+
+
         </where>
     </select>
 

@@ -24,6 +24,7 @@ public class ConsumerApplication {
         // 挂载自身节点
         String path = "/dubbo/com.example.dubbo.api.service.UserService/Service/test";
         zkObject.createNode(path, "172.16.18.214:9999");
+
     }
 
 }

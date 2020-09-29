@@ -24,6 +24,9 @@ public class OperationLog implements Serializable {
     
     private Date time;
 
+    //不用持久化
+    private String username;
+
 
     public Integer getId() {
         return id;
@@ -73,4 +76,11 @@ public class OperationLog implements Serializable {
         this.time = time;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

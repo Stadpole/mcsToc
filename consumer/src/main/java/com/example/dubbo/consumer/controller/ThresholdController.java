@@ -1,8 +1,8 @@
 package com.example.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.example.dubbo.api.common.request.ThresholdRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
+import com.example.dubbo.api.entity.Threshold;
 import com.example.dubbo.api.service.ThresholdService;
 import com.example.dubbo.consumer.common.AOP.MyLog;
 import com.example.dubbo.consumer.common.BaseCommonController;
@@ -53,7 +53,7 @@ public class ThresholdController extends BaseCommonController {
      */
     @MyLog(value = "新增门限")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String insertThreshold(@RequestBody ThresholdRequest thresholdRequest) {
+    public String insertThreshold(@RequestBody Threshold thresholdRequest) {
         //TODO:调用服务提供方thresholdService提供的添加门限
         try {
              BaseResponse response = thresholdService.insertThreshold(thresholdRequest);
@@ -74,7 +74,7 @@ public class ThresholdController extends BaseCommonController {
      */
     @MyLog(value = "更新门限信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateThreshold(@RequestBody ThresholdRequest thresholdRequest) {
+    public String updateThreshold(@RequestBody Threshold thresholdRequest) {
         //TODO:调用服务提供方userService提供的更新门限
         try {
             BaseResponse response = thresholdService.updateThreshold(thresholdRequest);

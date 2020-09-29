@@ -1,12 +1,12 @@
 package com.example.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.example.dubbo.api.common.request.AlarmRequest;
 import com.example.dubbo.api.common.response.BaseResponse;
+import com.example.dubbo.api.entity.Alarm;
 import com.example.dubbo.api.service.AlarmService;
-import com.example.dubbo.consumer.common.AOP.MyLog;
 import com.example.dubbo.consumer.common.BaseCommonController;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class AlarmController extends BaseCommonController {
 
     private static final Logger log = LoggerFactory.getLogger(AlarmController.class);
 
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private AlarmService alarmService;
 
     /**
@@ -56,7 +56,7 @@ public class AlarmController extends BaseCommonController {
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateThreshold(@RequestBody AlarmRequest alarmRequest) {
+    public String updateThreshold(@RequestBody Alarm alarmRequest) {
         //TODO:调用服务提供方alarmRequest提供的更新门限
         try {
             BaseResponse response = alarmService.updateAlarm(alarmRequest);

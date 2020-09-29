@@ -8,10 +8,10 @@
         <result property="equipmentName" column="equipment_name" jdbcType="VARCHAR"/>
         <result property="stationName" column="station_name" jdbcType="VARCHAR"/>
         <result property="telemetryName" column="telemetry_name" jdbcType="VARCHAR"/>
-        <result property="highRed" column="high_red" jdbcType="OTHER"/>
-        <result property="lowRed" column="low_red" jdbcType="OTHER"/>
-        <result property="highYellow" column="high_yellow" jdbcType="OTHER"/>
-        <result property="lowYellow" column="low_yellow" jdbcType="OTHER"/>
+        <result property="highRed" column="high_red" jdbcType="DOUBLE"/>
+        <result property="lowRed" column="low_red" jdbcType="DOUBLE"/>
+        <result property="highYellow" column="high_yellow" jdbcType="DOUBLE"/>
+        <result property="lowYellow" column="low_yellow" jdbcType="DOUBLE"/>
         <result property="dispersedStatus" column="dispersed_status" jdbcType="VARCHAR"/>
         <result property="time" column="time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -123,4 +123,18 @@
         delete from mcs.t_threshold where id = #{id}
     </delete>
 
+    <!--查询所有信息-->
+    <select id="findAll" resultMap="TThresholdMap">
+        select
+        id, equipment_id, equipment_name, station_name, telemetry_name, high_red, low_red, high_yellow, low_yellow, dispersed_status, time
+        from mcs.t_threshold
+    </select>
+
+    <!--根据dispersed_status查询单个-->
+    <select id="findByDispersed_status" resultMap="TThresholdMap">
+        select
+          id, equipment_id, equipment_name, station_name, telemetry_name, high_red, low_red, high_yellow, low_yellow, dispersed_status, time
+        from mcs.t_threshold
+        where dispersed_status!=null
+    </select>
 </mapper>

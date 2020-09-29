@@ -17,6 +17,13 @@
         from mcs.t_user
         where id = #{id}
     </select>
+    <!--通过username查询单个-->
+    <select id="queryByUsername" resultMap="TUserMap">
+        select
+          id, username, password, role, description
+        from mcs.t_user
+        where username = #{username}
+    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="TUserMap">

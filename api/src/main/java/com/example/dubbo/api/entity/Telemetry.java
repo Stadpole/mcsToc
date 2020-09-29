@@ -14,7 +14,7 @@ public class Telemetry implements Serializable {
     
     private Integer id;
     
-    private Integer equipmentId;
+    private String equipmentId;
     
     private String telemetryName;
     
@@ -23,6 +23,8 @@ public class Telemetry implements Serializable {
     private String unit;
     
     private Date time;
+
+    private Double DateTime;
 
 
     public Integer getId() {
@@ -33,11 +35,11 @@ public class Telemetry implements Serializable {
         this.id = id;
     }
 
-    public Integer getEquipmentId() {
+    public String getEquipmentId() {
         return equipmentId;
     }
 
-    public void setEquipmentId(Integer equipmentId) {
+    public void setEquipmentId(String equipmentId) {
         this.equipmentId = equipmentId;
     }
 
@@ -73,4 +75,12 @@ public class Telemetry implements Serializable {
         this.time = time;
     }
 
+
+    public Double getDateTime() {
+        return DateTime;
+    }
+
+    public void setDateTime(Double dateTime) {
+        DateTime = dateTime;
+    }
 }

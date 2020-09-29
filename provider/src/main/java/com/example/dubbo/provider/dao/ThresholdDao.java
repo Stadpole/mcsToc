@@ -1,7 +1,8 @@
 package com.example.dubbo.provider.dao;
 
-import com.example.dubbo.provider.entity.TThreshold;
+import com.example.dubbo.api.entity.Threshold;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface ThresholdDao {
      * @param id 主键
      * @return 实例对象
      */
-    TThreshold queryById(Integer id);
+    Threshold queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -27,7 +28,7 @@ public interface ThresholdDao {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<TThreshold> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<Threshold> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
 
     /**
@@ -36,7 +37,7 @@ public interface ThresholdDao {
      * @param tThreshold 实例对象
      * @return 对象列表
      */
-    List<TThreshold> queryAll(TThreshold tThreshold);
+    List<Threshold> queryAll(Threshold tThreshold);
 
     /**
      * 新增数据
@@ -44,7 +45,7 @@ public interface ThresholdDao {
      * @param tThreshold 实例对象
      * @return 影响行数
      */
-    int insert(TThreshold tThreshold);
+    int insert(Threshold tThreshold);
 
     /**
      * 修改数据
@@ -52,7 +53,7 @@ public interface ThresholdDao {
      * @param tThreshold 实例对象
      * @return 影响行数
      */
-    int update(TThreshold tThreshold);
+    int update(Threshold tThreshold);
 
     /**
      * 通过主键删除数据
@@ -61,5 +62,20 @@ public interface ThresholdDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    /**
+     * 查询所有信息
+     *
+     * @param
+     * @return 对象列表
+     */
+    List<Threshold> findAll();
+    /**
+     * 通过dispersed_status查询单条数据
+     *
+     *  @return 实例对象
+     */
+    List<Threshold> findByDispersed_status();
+
 
 }

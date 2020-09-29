@@ -19,6 +19,14 @@ public interface UserInfoDao {
      * @return 实例对象
      */
     UserInfo queryById(Integer id);
+    /**
+     * 通过username查询单条数据
+     *
+     * @param username 主键
+     * @return 实例对象
+     */
+    UserInfo queryByUsername(String  username);
+
 
     /**
      * 查询指定行数据

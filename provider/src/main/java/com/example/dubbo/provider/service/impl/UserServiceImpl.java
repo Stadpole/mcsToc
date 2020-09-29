@@ -36,12 +36,48 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public BaseResponse login(String username, String password) {
-        return null;
+    public BaseResponse login(String username,String password) {
+        BaseResponse response=new BaseResponse();
+        try {
+            UserInfo userInfo=userInfoDao.queryByUsername(username);
+            if(userInfo!=null){
+                if(userInfo.getPassword().equals(password)){
+                    response.setData(StatusCode.Success);
+                    response.setMsg("success");
+                }
+                else{
+                    response.setData(StatusCode.Fail);
+                    response.setMsg("密码错误");
+                }
+            }
+            else if(userInfo==null){
+                response.setData(StatusCode.Fail);
+                response.setMsg("用户不存在");
+            }
+
+        }catch (Exception e){
+            log.error("用户登录发生异常：",e.fillInStackTrace());
+            response=new BaseResponse(StatusCode.Fail);
+        }
+        return response;
     }
+
+    /**
+     *根据用户名查询用户role
+     */
 
     @Override
     public String findByUserName(String usernamne) {
+        BaseResponse response=new BaseResponse(StatusCode.Success);
+        try {
+            UserInfo infos=userInfoDao.queryByUsername(usernamne);
+            log.info("根据用户名查询到的用户role：{} ",infos);
+            return infos.getId()+"_"+infos.getRole();
+
+        }catch (Exception e){
+            log.error("根据用户名查询到的用户role实际的业务实现逻辑-发生异常：",e.fillInStackTrace());
+            response=new BaseResponse(StatusCode.Fail);
+        }
         return null;
     }
 

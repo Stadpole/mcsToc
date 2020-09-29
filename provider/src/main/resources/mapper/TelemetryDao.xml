@@ -88,4 +88,92 @@
         delete from mcs.t_telemetry_history where id = #{id}
     </delete>
 
+    <!--批量新增所有列-->
+    <insert id="insertTelemetryBatchCode" parameterType="java.util.List">
+        insert into mcs.t_telemetry_history(equipment_id, telemetry_name, engineering_value, unit, time) values
+        <foreach collection='list' item='item' separator=',' >
+         (#{item.equipmentId},#{item.telemetryName},#{item.engineeringValue},#{item.unit},#{item.time})
+        </foreach>
+    </insert>
+    <!--按秒查询所有列-->
+    <select id="SelectByIdAndTime" resultMap="TTelemetryHistoryMap">
+        select engineering_value, time from mcs.t_telemetry_history
+        <where>
+            <if test="equipment_id != null and equipment_id != ''">
+                and equipment_id = #{equipment_id}
+            </if>
+            <if test="telemetry_name != null and telemetry_name != ''">
+                and telemetry_name = #{telemetry_name}
+            </if>
+            <if test="startTime != null  and endTime != null">
+                and time between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
+    <!--按分钟查询所有列-->
+    <select id="SelectByMinute" resultMap="TTelemetryHistoryMap">
+        select engineering_value, time from mcs.t_telemetry_history
+        <where>
+            id in(
+            select
+            max(id)
+            FROM
+            mcs.t_telemetry_history
+            <where>
+            equipment_id=#{equipment_id} AND
+            telemetry_name=#{telemetry_name}AND
+            unix_timestamp(time) BETWEEN unix_timestamp(#{startTime})
+            AND unix_timestamp(#{endTime})
+            </where>
+            GROUP BY
+            CEILING((unix_timestamp(time)/60))
+            )
+        </where>
+        ORDER BY
+        time;
+    </select>
+    <!--按小时查询所有列-->
+    <select id="SelectByHour" resultMap="TTelemetryHistoryMap">
+        select engineering_value, time from mcs.t_telemetry_history
+        <where>
+            id in(
+            select
+            max(id)
+            FROM
+            mcs.t_telemetry_history
+            <where>
+                equipment_id=#{equipment_id} AND
+                telemetry_name=#{telemetry_name}AND
+                unix_timestamp(time) BETWEEN unix_timestamp(#{startTime})
+                AND unix_timestamp(#{endTime})
+            </where>
+            GROUP BY
+            CEILING((unix_timestamp(time)/3600))
+            )
+        </where>
+        ORDER BY
+        time;
+    </select>
+    <!--按2小时查询所有列-->
+    <select id="SelectBy2Hour" resultMap="TTelemetryHistoryMap">
+        select engineering_value, time from mcs.t_telemetry_history
+        <where>
+            id in(
+            select
+            max(id)
+            FROM
+            mcs.t_telemetry_history
+            <where>
+                equipment_id=#{equipment_id} AND
+                telemetry_name=#{telemetry_name}AND
+                unix_timestamp(time) BETWEEN unix_timestamp(#{startTime})
+                AND unix_timestamp(#{endTime})
+            </where>
+            GROUP BY
+            CEILING((unix_timestamp(time)/7200))
+            )
+        </where>
+        ORDER BY
+        time;
+    </select>
 </mapper>
