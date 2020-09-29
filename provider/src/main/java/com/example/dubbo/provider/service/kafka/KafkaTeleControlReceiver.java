@@ -26,8 +26,8 @@ public class KafkaTeleControlReceiver {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     //实际的
- //   @KafkaListener(topics = {"TcCallback"})
-    @KafkaListener(topics = {"aa"})
+  @KafkaListener(topics = {"TcCallback"})
+  //@KafkaListener(topics = {"aa"})
     public void listen(String telecontrolLog) {
         try {
             log.info("遥控执行情况返回信息接收成功==================== telecontrolLog+ " + telecontrolLog);
