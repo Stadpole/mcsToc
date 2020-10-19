@@ -10,6 +10,7 @@ package com.example.dubbo.api.common.enums;
 public enum  StatusCode {
 
     Success(0,"success"),
+    Repeat(1,"repeat"),
     Fail(-1,"fail"),
     InvalidParams(200,"无效的参数");
 

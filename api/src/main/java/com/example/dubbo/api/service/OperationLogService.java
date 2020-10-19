@@ -13,7 +13,7 @@ public interface OperationLogService {
    * 分页查询操作日志，可通过用户id筛选
    *
    * */
-     BaseResponse pageOperationLog(Integer page, Integer size,Integer userId);
+     BaseResponse pageOperationLog(Integer page, Integer size,Integer userId,String method,String startTime,String endTime);
     /**
      * 操作日志保存
      *

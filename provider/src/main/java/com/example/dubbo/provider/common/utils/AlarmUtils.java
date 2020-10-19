@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Stadpole on 2020/8/18 14:03
@@ -36,7 +37,6 @@ public class AlarmUtils {
         Alarm alarm = new Alarm();
         try {
             log.info("门限告警工具类启用");
-
             //TODO:告警详情：站名+设备名+遥测点名称+当前遥测值+门限范围+告警类型（高红/高黄/低红/低黄）
             alarm.setWarningDetail(threshold.getStationName() + threshold.getEquipmentName() + telemetry.getTelemetryName() + "当前遥测值：" +
                     telemetry.getEngineeringValue() + alarmName + alarmThreshold);
@@ -57,9 +57,9 @@ public class AlarmUtils {
     /**
      * 链路告警实例化,实时发布至kafka
      */
-    public Alarm netLinkalarmUtils(String netLinkAlarm) {
-
-        DateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+    public Alarm netLinkalarmUtils(BlockingQueue<String> cache) {
+        String netLinkAlarm = cache.poll();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Alarm alarm = new Alarm();
         try {
             log.info("链路告警工具类启用");
@@ -69,12 +69,12 @@ public class AlarmUtils {
             alarm.setEquipmentId(strings[1]);
             alarm.setWarningDetail(strings[2]);
 
-          //  alarm.setTime(format.parse(strings[3]));
+            //  alarm.setTime(format.parse(strings[3]));
             alarm.setType("链路告警");
             alarm.setLatchedStatus("alarm");
             alarm.setOpen("Yes");
             alarm.setAck("NO");
-            kafkaTemplate.send("ALarm",gson.toJson(alarm));
+            kafkaTemplate.send("ALarm", gson.toJson(alarm));
             return alarm;
         } catch (Exception e) {
             log.error("链路告警工具类异常：", e.fillInStackTrace());
@@ -82,6 +82,7 @@ public class AlarmUtils {
 
         return alarm;
     }
+
     /**
      * 遥测离散告警实例化
      */

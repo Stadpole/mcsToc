@@ -106,10 +106,14 @@ public class UserServiceImpl implements UserService {
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
             if(user!=null) {
-                UserInfo userInfo=new UserInfo();
-                BeanUtils.copyProperties(user, userInfo);
-                userInfoDao.insert(userInfo);
-                log.info("新增用户：{} ", userInfo);
+                UserInfo userInfo=userInfoDao.queryByUsername(user.getUsername());
+                if(userInfo==null) {
+                    userInfoDao.insert(user);
+                }else if(userInfo!=null){
+                    response=new BaseResponse(StatusCode.Repeat);
+                    response.setMsg("用户名已存在");
+                }
+                log.info("新增用户：{} ", user);
             }
 
         }catch (Exception e){
@@ -121,7 +125,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseResponse deletByID(Integer id) {
-        return null;
+
+        BaseResponse response=new BaseResponse(StatusCode.Success);
+        try {
+            if(id!=null) {
+                userInfoDao.deleteById(id);
+                log.info("删除用户：{} ", id);
+            }
+
+        }catch (Exception e){
+            log.error("删除用户-实际的业务实现逻辑-发生异常：",e.fillInStackTrace());
+            response=new BaseResponse(StatusCode.Fail);
+        }
+        return response;
     }
 
     @Override
@@ -140,4 +156,20 @@ public class UserServiceImpl implements UserService {
         }
         return response;
     }
+
+    @Override
+    public UserInfo findUserById(Integer id) {
+        UserInfo userInfo=new UserInfo();
+        try {
+            if(id!=null) {
+                userInfo=userInfoDao.queryById(id);
+            }
+
+        }catch (Exception e){
+            log.error("根据id查询用户信息-实际的业务实现逻辑-发生异常：",e.fillInStackTrace());
+
+        }
+        return userInfo;
+    }
+
 }

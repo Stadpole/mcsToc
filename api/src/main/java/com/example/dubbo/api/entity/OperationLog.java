@@ -1,5 +1,7 @@
 package com.example.dubbo.api.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -21,7 +23,8 @@ public class OperationLog implements Serializable {
     private String method;
     
     private String param;
-    
+
+    @JSONField(format="yyyy-MM-dd")
     private Date time;
 
     //不用持久化

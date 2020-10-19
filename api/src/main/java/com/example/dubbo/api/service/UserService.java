@@ -31,5 +31,8 @@ public interface UserService {
     //TODO：更新用户
      BaseResponse updateUser(UserInfo user);
 
-
+    /**
+     *根据用户id查询用户信息
+     */
+    UserInfo findUserById(Integer id);
 }

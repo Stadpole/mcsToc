@@ -30,26 +30,17 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="TOperationLogMap">
         select
-          id, user_id, operation_detail, method, param, time
+          id, user_id, operation_detail, method, param, date_format(time,'%Y-%m-%d') as time
         from mcs.t_operation_log
         <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
             <if test="userId != null">
                 and user_id = #{userId}
-            </if>
-            <if test="operationDetail != null and operationDetail != ''">
-                and operation_detail = #{operationDetail}
             </if>
             <if test="method != null and method != ''">
                 and method = #{method}
             </if>
-            <if test="param != null and param != ''">
-                and param = #{param}
-            </if>
-            <if test="time != null">
-                and time = #{time}
+            <if test="startTime != null  and endTime != null">
+                and time between #{startTime} and #{endTime}
             </if>
         </where>
     </select>

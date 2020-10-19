@@ -7,15 +7,18 @@ import com.example.dubbo.provider.common.utils.AlarmUtils;
 import com.example.dubbo.provider.common.utils.StringToObjectUtil;
 import com.example.dubbo.provider.dao.AlarmDao;
 import com.example.dubbo.provider.dao.ThresholdDao;
+import com.google.common.collect.Queues;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Stadpole on 2020/8/13 13:51
@@ -40,11 +43,22 @@ public class DispersedAlarmByThresholdService {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     private Gson gson = new GsonBuilder().create();
+    private static BlockingQueue<String> cache = Queues.newLinkedBlockingQueue(1000);
 
+    @Async
+    public void dispersedAlarm(String telemetries) {
+        try{
+            cache.put(telemetries);
+            dispersedAlarmCache();
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+
+    }
     //TODO：遥测离散告警判断
-    public String dispersedAlarm(String telemetries) {
+    public String dispersedAlarmCache() {
         try {
-            Telemetry telemetry = stringToObjectUtil.ConvertToTelemrtry(telemetries);
+            Telemetry telemetry = stringToObjectUtil.ConvertToTelemrtry(cache);
             List<Threshold> lists = thresholdDao.findByDispersed_status();
             if (!lists.isEmpty() && telemetry != null && telemetry.getEquipmentId() != null && telemetry.getEngineeringValue() != null) {
 

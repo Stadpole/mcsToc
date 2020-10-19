@@ -1,6 +1,7 @@
 package com.example.dubbo.api.service;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.Threshold;
+import com.example.dubbo.api.entity.UserInfo;
 
 /**
  * Created by Stadpole on 2020/7/29 16:24
@@ -34,4 +35,9 @@ public interface ThresholdService {
      *
      */
      BaseResponse updateThreshold(Threshold threshold);
+    /**
+     *根据id查找门限信息
+     *
+     */
+     Threshold findThresholdById(Integer id);
 }

@@ -2,17 +2,20 @@ package com.example.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.example.dubbo.api.common.response.BaseResponse;
+import com.example.dubbo.api.entity.OperationLog;
 import com.example.dubbo.api.entity.UserInfo;
+import com.example.dubbo.api.service.OperationLogService;
 import com.example.dubbo.api.service.UserService;
-import com.example.dubbo.consumer.common.AOP.MyLog;
 import com.example.dubbo.consumer.common.BaseCommonController;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Stadpole on 2017/9/21.
@@ -25,47 +28,56 @@ public class UserController extends BaseCommonController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
+
     @Reference(version = "1.0.0")
     private UserService userService;
+    @Reference(version = "1.0.0")
+    private OperationLogService operationLogService;
 
     /**
      * 用户登录
      *
      * @return
      */
-    @ApiOperation(value = "用户登录", notes = "用户登录")
-    @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String login(@RequestParam String username,@RequestParam String password) {
-        BaseResponse response=new BaseResponse();
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@RequestParam String username, @RequestParam String password) {
+
+        BaseResponse response = new BaseResponse();
         try {
-            if(StringUtils.isNotBlank(username)&&StringUtils.isNotBlank(password)) {
+            if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
                 response = userService.login(username, password);
                 if (StringUtils.isNotBlank(response.getMsg())) {
-                    String idAndrole=userService.findByUserName(username);
-                    if(idAndrole!=null&&response.getMsg().equals("success")) {
+                    String idAndrole = userService.findByUserName(username);
+                    if (idAndrole != null && response.getMsg().equals("success")) {
+                        OperationLog operationLog = new OperationLog();
                         String string[] = idAndrole.split("_");
+                        operationLog.setUserId(Integer.parseInt(string[0]));
+                        operationLog.setOperationDetail("登录成功");
+                        operationLog.setMethod("用户操作");
+                        operationLog.setParam("用户名称:" + username);
+                        operationLog.setTime(new Date());
+                        operationLogService.save(operationLog);
                         return sendLoginMessage(response.getMsg(), string[0], string[1]);
-                    }
-                    else{
-                        return sendLoginMessage(response.getMsg(), "","");
+                    } else {
+                        return sendLoginMessage(response.getMsg(), "", "");
                     }
                 }
-            }else {
-                return sendLoginMessage("用户名密码不能为空","","");
+            } else {
+                return sendLoginMessage("用户名密码不能为空", "", "");
             }
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        return sendLoginMessage("登录失败","","");
+        return sendLoginMessage("登录失败", "", "");
     }
+
     /**
      * 用户列表查询-分页查询
      *
      * @return
      */
 
-    @ApiOperation(value = "获取用户列表", notes = "获取用户列表")
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public String Page(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String role) {
         if (page == null || size == null || page <= 0 || size <= 0) {
@@ -74,31 +86,39 @@ public class UserController extends BaseCommonController {
         }
         //TODO:调用服务提供方userService提供的列表查询-分页查询功能
         try {
-            Gson gson=new Gson();
+            Gson gson = new Gson();
             BaseResponse response = userService.pageUser(page, size, role);
             if (response != null && response.getCode().equals(0)) {
-                log.info("用户列表+"+response.getData()+"----");
-               return sendMessage("0","success",response.getData());
+               // log.info("用户列表+" + response.getData() + "----");
+                return sendMessage("0", "success", response.getData());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return sendFailMessage();
     }
+
     /**
      * 添加用户
      *
      * @return
      */
-    @MyLog(value = "新增用户")
-    @ApiOperation(value = "新增用户信息", notes = "新增用户信息")
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String insertUser(@RequestBody UserInfo user) {
+    public String insertUser(@RequestParam Integer id, @RequestBody UserInfo user) {
         //TODO:调用服务提供方userService提供的添加用户
         try {
             BaseResponse response = userService.insertUser(user);
-            if(response.getCode()==0) {
+            if (response.getCode() == 0) {
+                OperationLog operationLog = new OperationLog();
+                operationLog.setUserId(id);
+                operationLog.setOperationDetail("新增用户成功");
+                operationLog.setMethod("用户操作");
+                operationLog.setParam("用户名:" + user.getUsername() + " 角色:" + user.getRole() + " 描述:" + user.getDescription());
+                operationLog.setTime(new Date());
+                operationLogService.save(operationLog);
                 return sendMessage("0", "success", response.getData());
+            }else if (response.getCode()==1){
+                return sendMessage("1", "repeat", response.getMsg());
             }
 
         } catch (Exception e) {
@@ -110,16 +130,23 @@ public class UserController extends BaseCommonController {
     /**
      * 更新用户
      *
+     * @param id 当前登录的用户id
      * @return
      */
-    @MyLog(value = "更新用户信息")
-    @ApiOperation(value = "更新用户信息", notes = "根据用户id更新用户信息，必须包括id")
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateUser(@RequestBody UserInfo user) {
+    public String updateUser(@RequestParam Integer id, @RequestBody UserInfo user) {
         //TODO:调用服务提供方userService提供的更新用户
         try {
             BaseResponse response = userService.updateUser(user);
-            if(response.getCode()==0) {
+            if (response.getCode() == 0) {
+                OperationLog operationLog = new OperationLog();
+                operationLog.setUserId(id);
+                operationLog.setOperationDetail("更新用户成功，字段为空说明该信息未修改");
+                operationLog.setMethod("用户操作");
+                operationLog.setParam("用户名:" + user.getUsername() + " 角色:" + user.getRole() + " 描述:" + user.getDescription());
+                operationLog.setTime(new Date());
+                operationLogService.save(operationLog);
                 return sendMessage("0", "success", response.getData());
             }
 
@@ -128,22 +155,30 @@ public class UserController extends BaseCommonController {
         }
         return sendFailMessage();
     }
+
     /**
      * 删除用户
      *
+     * @param userId 为当前登录的用户id
+     * @param id     要删除的用户id
      * @return
      */
-    @MyLog(value = "删除用户信息")
-    @ApiOperation(value = "删除用户信息", notes = "根据用户id删除用户信息，必须包括id")
+
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteUser(@RequestParam Integer id) {
+    public String deleteUser(@RequestParam Integer userId, @RequestParam Integer id) {
         //TODO:调用服务提供方userService提供的删除用户
         try {
+            OperationLog operationLog = new OperationLog();
+            operationLog.setUserId(userId);
+            operationLog.setOperationDetail("删除用户成功");
+            operationLog.setMethod("用户操作");
+            operationLog.setParam("用户名:" + userService.findUserById(id).getUsername());
+            operationLog.setTime(new Date());
             BaseResponse response = userService.deletByID(id);
-            if(response.getCode()==0) {
-                return sendMessage("0", "success", response.getData());
+            if (response.getCode() == 0) {
+                operationLogService.save(operationLog);
             }
-
+            return sendMessage("0", "success", response.getData());
         } catch (Exception e) {
             e.printStackTrace();
         }

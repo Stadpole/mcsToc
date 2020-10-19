@@ -3,6 +3,7 @@ package com.example.dubbo.provider.dao;
 import com.example.dubbo.api.entity.OperationLog;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,10 +35,10 @@ public interface OperationLogDao {
     /**
      * 通过实体作为筛选条件查询
      *
-     * @param tOperationLog 实例对象
-     * @return 对象列表
+     * @param
+     * * @return 对象列表
      */
-    List<OperationLog> queryAll(OperationLog tOperationLog);
+    List<OperationLog> queryAll(Integer userId, String method,Date startTime, Date endTime);
 
     /**
      * 新增数据

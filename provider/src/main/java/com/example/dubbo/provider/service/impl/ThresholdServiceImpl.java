@@ -4,6 +4,7 @@ package com.example.dubbo.provider.service.impl;
 import com.example.dubbo.api.common.enums.StatusCode;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.Threshold;
+import com.example.dubbo.api.entity.UserInfo;
 import com.example.dubbo.api.service.ThresholdService;
 import com.example.dubbo.provider.dao.ThresholdDao;
 import com.github.pagehelper.PageHelper;
@@ -94,4 +95,19 @@ public class ThresholdServiceImpl implements ThresholdService {
         }
         return response;
     }
+    @Override
+    public Threshold findThresholdById(Integer id) {
+        Threshold threshold=new Threshold();
+        try {
+            if(id!=null) {
+                threshold=thresholdDao.queryById(id);
+            }
+
+        }catch (Exception e){
+            log.error("根据id查询门限信息-实际的业务实现逻辑-发生异常：",e.fillInStackTrace());
+
+        }
+        return threshold;
+    }
+
 }

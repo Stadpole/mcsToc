@@ -1,6 +1,7 @@
 package com.example.dubbo.provider.dao;
 
 import com.example.dubbo.api.entity.Alarm;
+import com.example.dubbo.api.entity.Telemetry;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -63,5 +64,6 @@ public interface AlarmDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
 
 }

@@ -44,15 +44,15 @@ public class KfkaProducer {
             BigDecimal b   =   new   BigDecimal(r);
             double   random   =   b.setScale(4,   BigDecimal.ROUND_HALF_UP).doubleValue();
         //    try{Thread.sleep(3000);}catch(Exception e){}
-            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;方位限制;方位无限制;无 ");
-            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;俯仰限制;俯仰无限制;无");
-            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;方位角;" + (000.000 + random) + ";度");
-            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;俯仰角;" + (000.000 + random) + ";度");
-            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;AGC;+000;伏特 ");
-            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;俯仰方位转动;无转动;无 ");
-            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;命令执行;无命令;无 ");
-            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;驱动上电情况;驱动未上电;无 ");
-            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;系统状态;系统未就绪;无 ");
+            kafkaTemplate.send("Tc", "2020-09-22 11:16:32;010104;方位限制;方位无限制;无 ");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;俯仰限制;俯仰无限制;无");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;方位角;" + (000.000 + random) + ";度");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;俯仰角;" + (000.000 + random) + ";度");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:32;010104;AGC;+000;伏特 ");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;俯仰方位转动;无转动;无 ");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;命令执行;无命令;无 ");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;驱动上电情况;驱动未上电;无 ");
+//            kafkaTemplate.send("33", "2020-09-22 11:16:33;010104;系统状态;系统未就绪;无 ");
         }
 
     }

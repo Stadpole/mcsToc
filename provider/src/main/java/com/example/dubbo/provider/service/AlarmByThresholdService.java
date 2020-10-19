@@ -8,15 +8,18 @@ import com.example.dubbo.provider.common.utils.StringToObjectUtil;
 import com.example.dubbo.provider.dao.AlarmDao;
 import com.example.dubbo.provider.dao.EquipmentDetailDao;
 import com.example.dubbo.provider.dao.ThresholdDao;
+import com.google.common.collect.Queues;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Stadpole on 2020/8/13 13:51
@@ -43,11 +46,22 @@ public class AlarmByThresholdService {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     private Gson gson = new GsonBuilder().create();
+    private static BlockingQueue<String> cache = Queues.newLinkedBlockingQueue(1000);
 
+    @Async
+    public void alarmByThreshold(String telemetries) {
+        try{
+            cache.put(telemetries);
+            alarmInCacheByThreshold();
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+
+    }
     //TODO：遥测根据门限判断告警
-    public String alarmByThreshold(String telemetries) {
+    public String alarmInCacheByThreshold() {
         try {
-            Telemetry telemetry = stringToObjectUtil.ConvertToTelemrtry(telemetries);
+            Telemetry telemetry = stringToObjectUtil.ConvertToTelemrtry(cache);
             List<Threshold> lists = thresholdDao.findAll();
             if (!lists.isEmpty() && telemetry != null && telemetry.getEquipmentId() != null && telemetry.getEngineeringValue() != null) {
 
