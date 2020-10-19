@@ -5,6 +5,7 @@ import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.Alarm;
 import com.example.dubbo.api.service.AlarmService;
 import com.example.dubbo.consumer.common.BaseCommonController;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
@@ -41,6 +42,7 @@ public class AlarmController extends BaseCommonController {
 
         //TODO:调用服务提供方alarmService提供的列表查询-分页查询功能
         try {
+            Gson gson=new Gson();
             BaseResponse response = alarmService.pageAlarm(page,size,equipment_id,startTime,endTime);
             if (response != null && response.getCode().equals(0)) {
                 return sendMessage("0", "success", response.getData());
