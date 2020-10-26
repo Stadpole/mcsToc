@@ -1,7 +1,7 @@
 package com.example.dubbo.api.entity;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Threshold)实体类
@@ -31,8 +31,11 @@ public class Threshold implements Serializable {
     private Double lowYellow;
     
     private String dispersedStatus;
-    
+
+
     private Date time;
+
+    private String datetime;
 
 
     public Integer getId() {
@@ -123,4 +126,11 @@ public class Threshold implements Serializable {
         this.time = time;
     }
 
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
 }

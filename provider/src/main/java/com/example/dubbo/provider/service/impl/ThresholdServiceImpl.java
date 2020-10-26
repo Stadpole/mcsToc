@@ -4,7 +4,6 @@ package com.example.dubbo.provider.service.impl;
 import com.example.dubbo.api.common.enums.StatusCode;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.Threshold;
-import com.example.dubbo.api.entity.UserInfo;
 import com.example.dubbo.api.service.ThresholdService;
 import com.example.dubbo.provider.dao.ThresholdDao;
 import com.github.pagehelper.PageHelper;
@@ -15,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,14 +30,20 @@ public class ThresholdServiceImpl implements ThresholdService {
     @Resource
     private ThresholdDao thresholdDao;
 
+
     @Override
     public BaseResponse pageThreshold(Integer page, Integer size) {
         //TODO:分页组件-第pageNo页，pageSize条数目数据
         PageHelper.startPage(page,size);
         BaseResponse response=new BaseResponse(StatusCode.Success);
         try {
-
             List<Threshold> thresholds = thresholdDao.findAll();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            for (Threshold threshold : thresholds) {
+                if(threshold.getTime()!=null) {
+                    threshold.setDatetime(simpleDateFormat.format(threshold.getTime()));
+                }
+            }
 
             PageInfo<Threshold> pageInfo = new PageInfo(thresholds);
 

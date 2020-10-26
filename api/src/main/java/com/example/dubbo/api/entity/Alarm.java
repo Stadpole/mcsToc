@@ -34,6 +34,8 @@ public class Alarm implements Serializable {
     
     private String operator;
 
+    private String dateTime;
+
 
     public Integer getId() {
         return id;
@@ -123,4 +125,11 @@ public class Alarm implements Serializable {
         this.operator = operator;
     }
 
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
 }

@@ -7,11 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="consumer" />
         <module name="api" />
         <module name="provider" />
-        <module name="assembly" />
         <module name="model" />
+        <module name="assembly" />
+        <module name="provider-playback" />
+        <module name="consumer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,6 +26,7 @@
       <module name="consumer" options="-parameters" />
       <module name="model" options="" />
       <module name="provider" options="-parameters" />
+      <module name="provider-playback" options="-parameters" />
     </option>
   </component>
 </project>

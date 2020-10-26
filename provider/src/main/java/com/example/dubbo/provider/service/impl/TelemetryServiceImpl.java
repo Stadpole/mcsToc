@@ -3,6 +3,7 @@ package com.example.dubbo.provider.service.impl;
 import com.example.dubbo.api.common.enums.StatusCode;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.Telemetry;
+import com.example.dubbo.api.entity.Threshold;
 import com.example.dubbo.api.service.TelemetryService;
 import com.example.dubbo.provider.common.utils.MyDateUtils;
 import com.example.dubbo.provider.dao.TelemetryDao;
@@ -63,6 +64,12 @@ public class TelemetryServiceImpl implements TelemetryService {
             HashMap<String, Telemetry> hashMap = telemetryToMapService.telemetryReal();
             for (Map.Entry<String, Telemetry> entry : hashMap.entrySet()) {
                 telemetryList.add(entry.getValue());
+            }
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            for (Telemetry telemetry : telemetryList) {
+                if(telemetry.getTime()!=null) {
+                    telemetry.setdTime(simpleDateFormat.format(telemetry.getTime()));
+                }
             }
             response.setData(telemetryList);
         } catch (Exception e) {

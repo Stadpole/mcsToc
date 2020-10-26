@@ -12,6 +12,7 @@
         <module>api</module>
         <module>consumer</module>
         <module>provider</module>
+        <module>provider-playback</module>
     </modules>
 
 </project>

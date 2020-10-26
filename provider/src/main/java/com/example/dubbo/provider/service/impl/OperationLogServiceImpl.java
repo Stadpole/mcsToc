@@ -4,6 +4,7 @@ package com.example.dubbo.provider.service.impl;
 import com.example.dubbo.api.common.enums.StatusCode;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.OperationLog;
+import com.example.dubbo.api.entity.Telemetry;
 import com.example.dubbo.api.entity.UserInfo;
 import com.example.dubbo.api.service.OperationLogService;
 import com.example.dubbo.provider.dao.OperationLogDao;
@@ -63,8 +64,15 @@ public class OperationLogServiceImpl implements OperationLogService {
             List<OperationLog> operationLogs = null;
             operationLogs = operationLogDao.queryAll(userId,method,startTime,endTime);
             for(OperationLog entity:operationLogs){
+
                 UserInfo userInfo=userInfoDao.queryById(entity.getUserId());
-                entity.setUsername(userInfo.getUsername());
+                if(userInfo!=null&&userInfo.getUsername()!=null) {
+                    entity.setUsername(userInfo.getUsername());
+                }
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                if(entity.getTime()!=null) {
+                        entity.setDateTime(simpleDateFormat.format(endTime.getTime()));
+                 }
 
             }
             PageInfo<OperationLog> pageInfo = new PageInfo(operationLogs);

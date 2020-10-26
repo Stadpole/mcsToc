@@ -4,6 +4,7 @@ package com.example.dubbo.provider.service.impl;
 import com.example.dubbo.api.common.enums.StatusCode;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.Alarm;
+import com.example.dubbo.api.entity.Telemetry;
 import com.example.dubbo.api.service.AlarmService;
 import com.example.dubbo.provider.common.BeanUtills;
 import com.example.dubbo.provider.dao.AlarmDao;
@@ -53,6 +54,12 @@ public class AlarmServiceImpl implements AlarmService {
                 endTime=null;
             }
             alarms = alarmDao.queryAll(equipment_id, startTime, endTime);
+
+            for (Alarm alarm : alarms) {
+                if(alarm.getTime()!=null) {
+                    alarm.setDateTime(format.format(alarm.getTime()));
+                }
+            }
             PageInfo<Alarm> pageInfo = new PageInfo(alarms);
 
             response.setData(pageInfo);

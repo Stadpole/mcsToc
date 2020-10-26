@@ -39,7 +39,7 @@ public interface AlarmDao {
      * @param equipment_id 设备id
      * @return 对象列表
      */
-    List<Alarm> queryAll(String equipment_id,Date startTime,Date endTime);
+    List<Alarm> queryAll(@Param("equipment_id") String equipment_id,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
 
     /**
      * 新增数据

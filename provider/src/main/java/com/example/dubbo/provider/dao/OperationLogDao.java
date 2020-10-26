@@ -38,7 +38,7 @@ public interface OperationLogDao {
      * @param
      * * @return 对象列表
      */
-    List<OperationLog> queryAll(Integer userId, String method,Date startTime, Date endTime);
+    List<OperationLog> queryAll(@Param("userId") Integer userId, @Param("method") String method,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
 
     /**
      * 新增数据

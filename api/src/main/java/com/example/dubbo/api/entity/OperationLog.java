@@ -24,11 +24,12 @@ public class OperationLog implements Serializable {
     
     private String param;
 
-    @JSONField(format="yyyy-MM-dd")
     private Date time;
 
     //不用持久化
     private String username;
+
+    private String dateTime;
 
 
     public Integer getId() {
@@ -85,5 +86,13 @@ public class OperationLog implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }

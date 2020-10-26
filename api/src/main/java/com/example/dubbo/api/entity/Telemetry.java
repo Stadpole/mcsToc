@@ -26,6 +26,7 @@ public class Telemetry implements Serializable {
 
     private Double DateTime;
 
+    private String dTime;
 
     public Integer getId() {
         return id;
@@ -75,12 +76,19 @@ public class Telemetry implements Serializable {
         this.time = time;
     }
 
-
     public Double getDateTime() {
         return DateTime;
     }
 
     public void setDateTime(Double dateTime) {
         DateTime = dateTime;
+    }
+
+    public String getdTime() {
+        return dTime;
+    }
+
+    public void setdTime(String dTime) {
+        this.dTime = dTime;
     }
 }

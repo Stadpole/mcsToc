@@ -21,7 +21,6 @@ import java.util.Date;
  * Created by Stadpole on 2017/9/21.
  */
 
-@Api(tags = "用户API")
 @RestController
 @RequestMapping(value = "/user")
 public class UserController extends BaseCommonController {

@@ -81,7 +81,7 @@ public interface TelemetryDao {
      * @param endTime 结束时间
      * @return 查询到的列表
      */
-    List<Telemetry> SelectByIdAndTime(String equipment_id, String telemetry_name, Date startTime, Date endTime);
+    List<Telemetry> SelectByIdAndTime(@Param("equipment_id") String equipment_id, @Param("telemetry_name") String telemetry_name, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
     /**
      * 按每分钟查询
      * @param equipment_id 设备id
@@ -90,7 +90,7 @@ public interface TelemetryDao {
      * @param endTime 结束时间
      * @return 查询到的列表
      */
-    List<Telemetry> SelectByMinute(String equipment_id, String telemetry_name,Date startTime, Date endTime);
+    List<Telemetry> SelectByMinute(@Param("equipment_id") String equipment_id, @Param("telemetry_name")  String telemetry_name,@Param("startTime") Date startTime, @Param("endTime") Date endTime);
     /**
      * 按小时查询
      * @param equipment_id 设备id
@@ -99,7 +99,7 @@ public interface TelemetryDao {
      * @param endTime 结束时间
      * @return 查询到的列表
      */
-    List<Telemetry> SelectByHour(String equipment_id, String telemetry_name,Date startTime, Date endTime);
+    List<Telemetry> SelectByHour(@Param("equipment_id") String equipment_id, @Param("telemetry_name") String telemetry_name,@Param("startTime") Date startTime, @Param("endTime") Date endTime);
     /**
      * 按每两个小时查询
      * @param equipment_id 设备id
@@ -108,5 +108,5 @@ public interface TelemetryDao {
      * @param endTime 结束时间
      * @return 查询到的列表
      */
-    List<Telemetry> SelectBy2Hour(String equipment_id, String telemetry_name,Date startTime, Date endTime);
+    List<Telemetry> SelectBy2Hour(@Param("equipment_id") String equipment_id,  @Param("telemetry_name") String telemetry_name,@Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }
