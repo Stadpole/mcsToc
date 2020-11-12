@@ -49,38 +49,17 @@ public class StringToObjectUtil {
         OperationLog operationLog = new OperationLog();
         if (strings.length == 6) {
             operationLog.setTime(format.parse(strings[0]));
-            /***
-             * 0：地址错误
-             * 1：发送成功
-             * 2：发送失败
-             */
 
-            if (strings[1].equals("0")) {
-                operationLog.setOperationDetail("地址错误");
-            } else if (strings[1].equals("1")) {
-                operationLog.setOperationDetail("发送成功");
-            } else if (strings[1].equals("2")) {
-                operationLog.setOperationDetail("发送失败");
-            }
+            operationLog.setOperationDetail(strings[1]);
+
             operationLog.setMethod("遥控发令");
             operationLog.setUserId(Integer.parseInt(strings[2]));
             operationLog.setUsername(getUserName(Integer.parseInt(strings[2])));
             operationLog.setParam(getEquipmentDetail(strings[3]) + getCommandDetail(strings[3], strings[4]) + "参数：" + strings[5]);
         } else if (strings.length == 5) {
             operationLog.setTime(format.parse(strings[0]));
-            /***
-             * 0：地址错误
-             * 1：发送成功
-             * 2：发送失败
-             */
 
-            if (strings[1].equals("0")) {
-                operationLog.setOperationDetail("地址错误");
-            } else if (strings[1].equals("1")) {
-                operationLog.setOperationDetail("发送成功");
-            } else if (strings[1].equals("2")) {
-                operationLog.setOperationDetail("发送失败");
-            }
+            operationLog.setOperationDetail(strings[1]);
             operationLog.setMethod("遥控发令");
             operationLog.setUserId(Integer.parseInt(strings[2]));
             operationLog.setUsername(getUserName(Integer.parseInt(strings[2])));

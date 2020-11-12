@@ -8,11 +8,15 @@ import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -28,6 +32,7 @@ public class AlarmUtils {
 
     SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
     Date current = new Date(System.currentTimeMillis());
+    private HashMap<String, Long> map = new HashMap<>();
 
     /**
      * 遥测告警实例化
@@ -42,7 +47,7 @@ public class AlarmUtils {
                     telemetry.getEngineeringValue() + alarmName + alarmThreshold);
             alarm.setEquipmentId(telemetry.getEquipmentId());
             alarm.setType("遥测门限告警");
-            alarm.setTime(telemetry.getTime());
+            alarm.setDateTime(format.format(telemetry.getTime()));
             alarm.setLatchedStatus("alarm");
             alarm.setOpen("Yes");
             alarm.setAck("NO");
@@ -65,10 +70,11 @@ public class AlarmUtils {
             log.info("链路告警工具类启用");
             //TODO:告警信息解析
             String[] strings = netLinkAlarm.split(";");
-            alarm.setTime(format.parse(strings[0]));
+
+            // alarm.setTime(format.parse(strings[0]));
+            alarm.setDateTime(strings[0]);
             alarm.setEquipmentId(strings[1]);
             alarm.setWarningDetail(strings[2]);
-
             //  alarm.setTime(format.parse(strings[3]));
             alarm.setType("链路告警");
             alarm.setLatchedStatus("alarm");
@@ -93,11 +99,11 @@ public class AlarmUtils {
             log.info("遥测离散告警工具类启用");
 
             //TODO:告警详情
-            alarm.setWarningDetail(threshold.getStationName() + threshold.getEquipmentName() + telemetry.getTelemetryName() + "当前遥测值：" +
-                    telemetry.getEngineeringValue() + alarmName + alarmThreshold);
+            alarm.setWarningDetail(threshold.getStationName() + threshold.getEquipmentName() + telemetry.getTelemetryName());
             alarm.setEquipmentId(telemetry.getEquipmentId());
-            alarm.setType("遥测门限告警");
-            alarm.setTime(telemetry.getTime());
+            alarm.setType("离散门限告警");
+            //alarm.setTime(telemetry.getTime());
+            alarm.setDateTime(format.format(telemetry.getTime()));
             alarm.setLatchedStatus("alarm");
             alarm.setOpen("Yes");
             alarm.setAck("NO");
@@ -107,5 +113,33 @@ public class AlarmUtils {
 
         }
         return alarm;
+    }
+
+    /**
+     * 保存实时告警信息到内存Map,key为告警信息，value 为记录的时间戳
+     * 如果value与当前时间超过15秒证明告警恢复
+     * 推送恢复信息到kafka队列                             *
+     */
+    public void alarmJudgeRecovery(Alarm alarm) {
+        alarm.setId(0);
+        alarm.setTime(null);
+        String str = gson.toJson(alarm);
+        map.put(str, System.currentTimeMillis());
+
+    }
+
+    //定时检查告警有没有恢复
+    @Scheduled(initialDelay = 10, fixedDelay = 15000)
+    public void isRecovery() {
+        Long isRecveryTime = System.currentTimeMillis();
+        if (map.size() >= 0) {
+            for (Iterator<Map.Entry<String, Long>> it = map.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<String, Long> item = it.next();
+                if ((isRecveryTime - item.getValue()) / 1000 > 15) {
+                    kafkaTemplate.send("recovery", gson.toJson(item.getKey()));
+                    it.remove();
+                }
+            }
+        }
     }
 }

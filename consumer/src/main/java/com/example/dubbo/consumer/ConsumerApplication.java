@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+import java.net.InetAddress;
+
 
 @EnableDubbo
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
@@ -20,10 +22,12 @@ public class ConsumerApplication {
         zkObject.GetZkAddress();  // 获取集群位置
 
         zkObject.ConnectZookeeper(2000);  // 连接Zookeeper，timout为2000ms
-
+        InetAddress ia=null;
+        ia=ia.getLocalHost();
+        String localip=ia.getHostAddress();
         // 挂载自身节点
-        String path = "/dubbo/com.example.dubbo.api.service.UserService/Service/test";
-        zkObject.createNode(path, "172.16.18.214:9999");
+        String path = "/dubbo/com.example.dubbo.api.service.UserService/Service/scc";
+        zkObject.createNode(path, localip+":9998");
 
     }
 

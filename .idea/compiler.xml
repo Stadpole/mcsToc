@@ -7,17 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="consumer" />
         <module name="api" />
         <module name="provider" />
-        <module name="model" />
         <module name="assembly" />
-        <module name="provider-playback" />
-        <module name="consumer" />
+        <module name="model" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="assembly" target="1.7" />
       <module name="model" target="1.7" />
+      <module name="provider-playback" target="1.7" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
