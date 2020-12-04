@@ -1,6 +1,5 @@
 package com.example.dubbo.consumer.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.OperationLog;
 import com.example.dubbo.api.entity.UserInfo;
@@ -8,14 +7,12 @@ import com.example.dubbo.api.service.OperationLogService;
 import com.example.dubbo.api.service.UserService;
 import com.example.dubbo.consumer.common.BaseCommonController;
 import com.google.gson.Gson;
-import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
