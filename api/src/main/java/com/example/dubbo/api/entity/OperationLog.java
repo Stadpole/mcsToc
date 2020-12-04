@@ -24,7 +24,7 @@ public class OperationLog implements Serializable {
     
     private String param;
 
-    private Date time;
+    private Long time;
 
     //不用持久化
     private String username;
@@ -72,11 +72,11 @@ public class OperationLog implements Serializable {
         this.param = param;
     }
 
-    public Date getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 

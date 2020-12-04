@@ -20,8 +20,4 @@ public interface TelemetryService {
      */
      BaseResponse telemetryRealTime();
 
-    /**
-     * 遥测回放
-     */
-    BaseResponse telemetryHistory(String equipment_id,String telemetry_name,String startTime,String endTime);
 }

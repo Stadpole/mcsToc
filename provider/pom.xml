@@ -226,6 +226,17 @@
             <version>1.2.68</version>
             <scope>compile</scope>
         </dependency>
+        <!--guava-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0.1-jre</version>
+        </dependency>
+
 
 
     </dependencies>

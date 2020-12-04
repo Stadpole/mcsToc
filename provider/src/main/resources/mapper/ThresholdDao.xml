@@ -35,7 +35,8 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="TThresholdMap">
         select
-          id, equipment_id, equipment_name, station_name, telemetry_name, high_red, low_red, high_yellow, low_yellow, dispersed_status, time
+        id, equipment_id, equipment_name, station_name, telemetry_name, high_red, low_red, high_yellow, low_yellow,
+        dispersed_status, time
         from mcs.t_threshold
         <where>
             <if test="id != null">
@@ -130,11 +131,26 @@
         from mcs.t_threshold
     </select>
 
-    <!--根据dispersed_status查询单个-->
+    <!--根据dispersed_status查询-->
     <select id="findByDispersed_status" resultMap="TThresholdMap">
+        select
+          id, equipment_id, equipment_name, station_name, telemetry_name, high_red, low_red, high_yellow, low_yellow, dispersed_status
+        from mcs.t_threshold
+        where dispersed_status!=''
+     </select>
+    <!--根据dispersed_status查询-->
+    <select id="findExceptDispersed_status" resultMap="TThresholdMap">
+         select
+          id, equipment_id, equipment_name, station_name, telemetry_name, high_red, low_red, high_yellow, low_yellow, dispersed_status
+        from mcs.t_threshold
+        where  ISNULL(dispersed_status) or dispersed_status=''
+    </select>
+
+    <!--通过设备id和遥测点名称查询单个门限-->
+    <select id="findByEquipmentIdAndName" resultMap="TThresholdMap">
         select
           id, equipment_id, equipment_name, station_name, telemetry_name, high_red, low_red, high_yellow, low_yellow, dispersed_status, time
         from mcs.t_threshold
-        where dispersed_status!=null
+        where equipment_id = #{equipmentId} and telemetry_name=#{telemetryName}
     </select>
 </mapper>

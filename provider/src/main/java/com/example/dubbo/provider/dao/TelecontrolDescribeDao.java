@@ -19,7 +19,7 @@ public interface TelecontrolDescribeDao {
      * @param equipmentId 主键
      * @return 实例对象
      */
-    TelecontrolDescribe queryById(String equipmentId,String commandNumber);
+    TelecontrolDescribe queryById(@Param("equipmentId")String equipmentId,@Param("commandNumber")String commandNumber);
 
     /**
      * 查询指定行数据

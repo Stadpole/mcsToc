@@ -39,7 +39,7 @@ public class OperationLogServiceImpl implements OperationLogService {
     private UserInfoDao userInfoDao;
 
 
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+   static DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     /**
      * 操作日志分页查询
      *
@@ -52,11 +52,11 @@ public class OperationLogServiceImpl implements OperationLogService {
         PageHelper.startPage(page, size);
         BaseResponse response = new BaseResponse(StatusCode.Success);
         try {
-            Date startTime;
-            Date endTime;
+            Long startTime;
+            Long endTime;
             if(StringUtils.isNotBlank(startTime1)&&StringUtils.isNotBlank(endTime1)) {
-                startTime = format.parse(startTime1);
-                endTime = format.parse(endTime1);
+                startTime = format.parse(startTime1).getTime();
+                endTime = format.parse(endTime1).getTime();
             }else{
                 startTime=null;
                 endTime=null;
@@ -69,9 +69,10 @@ public class OperationLogServiceImpl implements OperationLogService {
                 if(userInfo!=null&&userInfo.getUsername()!=null) {
                     entity.setUsername(userInfo.getUsername());
                 }
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 if(entity.getTime()!=null) {
-                        entity.setDateTime(simpleDateFormat.format(endTime.getTime()));
+                        entity.setDateTime(simpleDateFormat.format(entity.getTime()));
+
                  }
 
             }
@@ -93,11 +94,6 @@ public class OperationLogServiceImpl implements OperationLogService {
     public void save(OperationLog operationLog) {
         try {
             if (operationLog != null) {
-                if(operationLog.getTime()!=null){
-                    Date date=operationLog.getTime();
-                    
-                }
-
                 operationLogDao.insert(operationLog);
                 log.info("新增操作日志：{} ", operationLog);
             }

@@ -8,6 +8,7 @@ import com.example.dubbo.api.service.OperationLogService;
 import com.example.dubbo.api.service.ThresholdService;
 import com.example.dubbo.consumer.common.BaseCommonController;
 import com.github.pagehelper.PageInfo;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,9 @@ public class ThresholdController extends BaseCommonController {
     private static final Logger log = LoggerFactory.getLogger(ThresholdController.class);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private ThresholdService thresholdService;
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private OperationLogService operationLogService;
 
 
@@ -66,6 +67,27 @@ public class ThresholdController extends BaseCommonController {
     }
 
     /**
+     * 根据设备id和遥测点名称查询门限信息
+     * @param equipmentId  设备id
+     * @param telemetryName  遥测点名称
+     * @return
+     */
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    public String findOne(@RequestParam String equipmentId, @RequestParam String telemetryName) {
+
+        try {
+
+           Threshold threshold=thresholdService.findThresholdByEqIdAndName(equipmentId,telemetryName);
+                   if (threshold!=null) {
+                return sendMessage("0", "success", threshold);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sendFailMessage();
+    }
+
+    /**
      * 添加门限
      *
      * @param id 当前登录的用户id
@@ -78,16 +100,18 @@ public class ThresholdController extends BaseCommonController {
         try {
             BaseResponse response = thresholdService.insertThreshold(threshold);
             if (response.getCode() == 0) {
-                OperationLog operationLog = new OperationLog();
-                operationLog.setUserId(id);
-                operationLog.setOperationDetail("新增门限成功");
-                operationLog.setMethod("门限操作");
-                operationLog.setParam("站名:" + threshold.getStationName() + " 设备名:" + threshold.getEquipmentName() + " 遥测点名称:" + threshold.getTelemetryName() +
-                        " 高红门限值:" + threshold.getHighRed() + " 高黄门限值:" + threshold.getHighYellow() +
-                        " 低黄门限值:" + threshold.getLowYellow() + " 低红门限值:" + threshold.getLowRed());
-                operationLog.setTime(new Date());
-                operationLogService.save(operationLog);
+//                OperationLog operationLog = new OperationLog();
+//                operationLog.setUserId(id);
+//                operationLog.setOperationDetail("新增门限成功");
+//                operationLog.setMethod("门限操作");
+//                operationLog.setParam("站名:" + threshold.getStationName() + " 设备名:" + threshold.getEquipmentName() + " 遥测点名称:" + threshold.getTelemetryName() +
+//                        " 高红门限值:" + threshold.getHighRed() + " 高黄门限值:" + threshold.getHighYellow() +
+//                        " 低黄门限值:" + threshold.getLowYellow() + " 低红门限值:" + threshold.getLowRed());
+//                operationLog.setTime(System.currentTimeMillis());
+//                operationLogService.save(operationLog);
                 return sendMessage("0", "success", response.getData());
+            }else if(response.getCode()==1){
+                return sendMessage("1", "repeat", response.getMsg());
             }
 
         } catch (Exception e) {
@@ -113,10 +137,9 @@ public class ThresholdController extends BaseCommonController {
                 operationLog.setUserId(id);
                 operationLog.setOperationDetail("更新门限成功，字段为空说明该信息未修改");
                 operationLog.setMethod("门限操作");
-                operationLog.setParam("站名:" + threshold.getStationName() + " 设备名:" + threshold.getEquipmentName() + " 遥测点名称:" + threshold.getTelemetryName() +
-                        " 高红门限值:" + threshold.getHighRed() + " 高黄门限值:" + threshold.getHighYellow() +
+                operationLog.setParam(" 高红门限值:" + threshold.getHighRed() + " 高黄门限值:" + threshold.getHighYellow() +
                         " 低黄门限值:" + threshold.getLowYellow() + " 低红门限值:" + threshold.getLowRed());
-                operationLog.setTime(new Date());
+                operationLog.setTime(System.currentTimeMillis());
                 operationLogService.save(operationLog);
                 return sendMessage("0", "success", response.getData());
             }
@@ -146,9 +169,11 @@ public class ThresholdController extends BaseCommonController {
                 operationLog.setOperationDetail("删除门限成功");
                 operationLog.setMethod("门限操作");
                 operationLog.setParam("门限id:" + id);
-                operationLog.setTime(new Date());
+                operationLog.setTime(System.currentTimeMillis());
                 operationLogService.save(operationLog);
                 return sendMessage("0", "success", response.getData());
+            }else if(response.getCode()==-1){
+                return sendMessage("0", "success", response.getMsg());
             }
 
         } catch (Exception e) {

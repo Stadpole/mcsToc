@@ -71,11 +71,24 @@ public interface ThresholdDao {
      */
     List<Threshold> findAll();
     /**
-     * 通过dispersed_status查询单条数据
+     * 查询所有有上下限的门限信息
+     *
+     * @param
+     * @return 对象列表
+     */
+    List<Threshold> findExceptDispersed_status();
+    /**
+     * 通过dispersed_status查询数据
      *
      *  @return 实例对象
      */
     List<Threshold> findByDispersed_status();
 
-
+    /**
+     *查询单条数据
+     * @param equipmentId 设备id
+     * @param telemetryName 遥测点名称
+     *  @return 实例对象
+     */
+    Threshold findByEquipmentIdAndName(@Param("equipmentId") String equipmentId,@Param("telemetryName") String telemetryName);
 }

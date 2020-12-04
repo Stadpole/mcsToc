@@ -22,7 +22,7 @@ public class Telemetry implements Serializable {
     
     private String unit;
     
-    private Date time;
+    private Long time;
 
     private Double DateTime;
 
@@ -68,11 +68,11 @@ public class Telemetry implements Serializable {
         this.unit = unit;
     }
 
-    public Date getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 

@@ -20,7 +20,7 @@ public class Alarm implements Serializable {
     
     private String type;
     
-    private Date time;
+    private Long time;
     
     private String statusPoint;
     
@@ -30,12 +30,13 @@ public class Alarm implements Serializable {
     
     private String ack;
     
-    private String ackTime;
+    private Long ackTime;
     
     private String operator;
 
     private String dateTime;
 
+    private String telemetryName;
 
     public Integer getId() {
         return id;
@@ -69,13 +70,7 @@ public class Alarm implements Serializable {
         this.type = type;
     }
 
-    public Date getTime() {
-        return time;
-    }
 
-    public void setTime(Date time) {
-        this.time = time;
-    }
 
     public String getStatusPoint() {
         return statusPoint;
@@ -109,11 +104,19 @@ public class Alarm implements Serializable {
         this.ack = ack;
     }
 
-    public String getAckTime() {
+    public Long getTime() {
+        return time;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
+    }
+
+    public Long getAckTime() {
         return ackTime;
     }
 
-    public void setAckTime(String ackTime) {
+    public void setAckTime(Long ackTime) {
         this.ackTime = ackTime;
     }
 
@@ -131,5 +134,13 @@ public class Alarm implements Serializable {
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getTelemetryName() {
+        return telemetryName;
+    }
+
+    public void setTelemetryName(String telemetryName) {
+        this.telemetryName = telemetryName;
     }
 }

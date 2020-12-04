@@ -31,7 +31,9 @@ public class ZookeeperObject {
      *
      */
     public void GetZkAddress (){
-        zookeeperGroup = "172.16.18.209:2191,172.16.18.208:2192,172.16.18.208:2193";
+      //  zookeeperGroup = "172.16.18.209:2191,172.16.18.208:2192,172.16.18.208:2193";
+        zookeeperGroup = "192.168.21.167:2181";
+       // zookeeperGroup = "172.16.18.214:2181";
     }
 
     /**

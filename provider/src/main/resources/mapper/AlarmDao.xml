@@ -7,7 +7,7 @@
         <result property="warningDetail" column="warning_detail" jdbcType="VARCHAR"/>
         <result property="equipmentId" column="equipment_id" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="VARCHAR"/>
-        <result property="time" column="time" jdbcType="TIMESTAMP"/>
+        <result property="time" column="time" jdbcType="BIGINT"/>
         <result property="statusPoint" column="status_point" jdbcType="VARCHAR"/>
         <result property="latchedStatus" column="latched_status" jdbcType="VARCHAR"/>
         <result property="open" column="open" jdbcType="VARCHAR"/>

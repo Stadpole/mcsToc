@@ -40,4 +40,9 @@ public interface ThresholdService {
      *
      */
      Threshold findThresholdById(Integer id);
+    /**
+     *根据设备id和遥测点名称查找门限信息
+     *
+     */
+    Threshold findThresholdByEqIdAndName(String equipmentId,String telemetryName);
 }

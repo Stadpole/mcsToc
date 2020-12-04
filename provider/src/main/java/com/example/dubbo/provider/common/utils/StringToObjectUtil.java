@@ -28,12 +28,12 @@ public class StringToObjectUtil {
     private UserInfoDao userInfoDao;
 
     //遥测接收解码
-    public Telemetry ConvertToTelemrtry(BlockingQueue<String> cache) throws ParseException {
-        String s = cache.poll();
+    public Telemetry ConvertToTelemrtry(String s) throws ParseException {
+//        String s = cache.poll();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String[] strings = s.split(";");
         Telemetry telemetry = new Telemetry();
-        telemetry.setTime(format.parse(strings[0]));
+        telemetry.setTime(format.parse(strings[0]).getTime());
         telemetry.setEquipmentId(strings[1]);
         telemetry.setTelemetryName(strings[2]);
         telemetry.setEngineeringValue(strings[3]);
@@ -48,39 +48,18 @@ public class StringToObjectUtil {
         String[] strings = s.split(";");
         OperationLog operationLog = new OperationLog();
         if (strings.length == 6) {
-            operationLog.setTime(format.parse(strings[0]));
-            /***
-             * 0：地址错误
-             * 1：发送成功
-             * 2：发送失败
-             */
+            operationLog.setTime(format.parse(strings[0]).getTime());
 
-            if (strings[1].equals("0")) {
-                operationLog.setOperationDetail("地址错误");
-            } else if (strings[1].equals("1")) {
-                operationLog.setOperationDetail("发送成功");
-            } else if (strings[1].equals("2")) {
-                operationLog.setOperationDetail("发送失败");
-            }
+            operationLog.setOperationDetail(strings[1]);
+
             operationLog.setMethod("遥控发令");
             operationLog.setUserId(Integer.parseInt(strings[2]));
             operationLog.setUsername(getUserName(Integer.parseInt(strings[2])));
             operationLog.setParam(getEquipmentDetail(strings[3]) + getCommandDetail(strings[3], strings[4]) + "参数：" + strings[5]);
         } else if (strings.length == 5) {
-            operationLog.setTime(format.parse(strings[0]));
-            /***
-             * 0：地址错误
-             * 1：发送成功
-             * 2：发送失败
-             */
+            operationLog.setTime(format.parse(strings[0]).getTime());
 
-            if (strings[1].equals("0")) {
-                operationLog.setOperationDetail("地址错误");
-            } else if (strings[1].equals("1")) {
-                operationLog.setOperationDetail("发送成功");
-            } else if (strings[1].equals("2")) {
-                operationLog.setOperationDetail("发送失败");
-            }
+            operationLog.setOperationDetail(strings[1]);
             operationLog.setMethod("遥控发令");
             operationLog.setUserId(Integer.parseInt(strings[2]));
             operationLog.setUsername(getUserName(Integer.parseInt(strings[2])));
@@ -96,7 +75,7 @@ public class StringToObjectUtil {
         String[] strings = s.split(";");
         OperationLog operationLog = new OperationLog();
         String dateTime = df.format(new Date());
-        operationLog.setTime(df.parse(dateTime));
+        operationLog.setTime(df.parse(dateTime).getTime());
         if (strings.length == 4) {
             operationLog.setOperationDetail("已发送");
             operationLog.setMethod("遥控发令");

@@ -13,16 +13,17 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 
 
 @Component
 @Slf4j
 public class KafkaTeleControlReceiver {
-    @Autowired
+    @Resource
     private StringToObjectUtil stringToObjectUtil;
     @Resource
     private OperationLogDao operationLogDao;
-    @Autowired(required = false)
+    @Resource
     private KafkaTemplate<String, String> kafkaTemplate;
 
     //实际的
@@ -44,6 +45,9 @@ public class KafkaTeleControlReceiver {
                 /**
                  * 遥控执行情况发送至告警
                  */
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+
                 Gson gson=new Gson();
                 Alarm alarm=new Alarm();
                 alarm.setTime(operationLog.getTime());
@@ -61,8 +65,8 @@ public class KafkaTeleControlReceiver {
         }
     }
 
-  //@KafkaListener(topics = {"Tc"})
-  @KafkaListener(topics = {"11"})
+  @KafkaListener(topics = {"Tc"})
+  //@KafkaListener(topics = {"11"})
     public void listenTeleControl(String telecontrol) {
         try {
             log.info("遥控执行发送信息接收成功==================== telecontrol+ " + telecontrol);

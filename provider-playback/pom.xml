@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <build>
         <!-- 包名称 -->
-        <finalName>mcs-provider</finalName>
+        <finalName>mcs-provider-playback</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <!--添加自己的启动类路径！-->
                 <configuration>
-                    <mainClass>com.example.dubbo.provider.ProviderApplication</mainClass>
+                    <mainClass>com.example.providerplayback.ProviderPlaybackApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -50,9 +50,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.example.dubbo</groupId>
-    <artifactId>provider</artifactId>
+    <artifactId>provider-playback</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>provider</name>
+    <name>provider-playback</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

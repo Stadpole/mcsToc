@@ -10,6 +10,7 @@ import com.example.dubbo.consumer.common.BaseCommonController;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,9 @@ public class UserController extends BaseCommonController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private UserService userService;
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private OperationLogService operationLogService;
 
     /**
@@ -54,7 +55,7 @@ public class UserController extends BaseCommonController {
                         operationLog.setOperationDetail("登录成功");
                         operationLog.setMethod("用户操作");
                         operationLog.setParam("用户名称:" + username);
-                        operationLog.setTime(new Date());
+                        operationLog.setTime(new Date().getTime());
                         operationLogService.save(operationLog);
                         return sendLoginMessage(response.getMsg(), string[0], string[1]);
                     } else {
@@ -113,7 +114,7 @@ public class UserController extends BaseCommonController {
                 operationLog.setOperationDetail("新增用户成功");
                 operationLog.setMethod("用户操作");
                 operationLog.setParam("用户名:" + user.getUsername() + " 角色:" + user.getRole() + " 描述:" + user.getDescription());
-                operationLog.setTime(new Date());
+                operationLog.setTime(System.currentTimeMillis());
                 operationLogService.save(operationLog);
                 return sendMessage("0", "success", response.getData());
             }else if (response.getCode()==1){
@@ -144,7 +145,7 @@ public class UserController extends BaseCommonController {
                 operationLog.setOperationDetail("更新用户成功，字段为空说明该信息未修改");
                 operationLog.setMethod("用户操作");
                 operationLog.setParam("用户名:" + user.getUsername() + " 角色:" + user.getRole() + " 描述:" + user.getDescription());
-                operationLog.setTime(new Date());
+                operationLog.setTime(System.currentTimeMillis());
                 operationLogService.save(operationLog);
                 return sendMessage("0", "success", response.getData());
             }
@@ -172,7 +173,7 @@ public class UserController extends BaseCommonController {
             operationLog.setOperationDetail("删除用户成功");
             operationLog.setMethod("用户操作");
             operationLog.setParam("用户名:" + userService.findUserById(id).getUsername());
-            operationLog.setTime(new Date());
+            operationLog.setTime(System.currentTimeMillis());
             BaseResponse response = userService.deletByID(id);
             if (response.getCode() == 0) {
                 operationLogService.save(operationLog);

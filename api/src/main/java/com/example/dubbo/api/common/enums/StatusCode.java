@@ -1,7 +1,4 @@
 package com.example.dubbo.api.common.enums;
-/**
- * Created by Administrator on 2020/7/21.
- */
 
 /**
  * @Author:Stadpole

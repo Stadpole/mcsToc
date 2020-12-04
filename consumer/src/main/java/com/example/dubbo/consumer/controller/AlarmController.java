@@ -1,6 +1,5 @@
 package com.example.dubbo.consumer.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.example.dubbo.api.common.response.BaseResponse;
 import com.example.dubbo.api.entity.Alarm;
 import com.example.dubbo.api.service.AlarmService;
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by Stadpole on 2017/9/21.
+ * Created by Stadpole on 2020/9/21.
  */
 @RestController
 @RequestMapping(value = "/alarm")

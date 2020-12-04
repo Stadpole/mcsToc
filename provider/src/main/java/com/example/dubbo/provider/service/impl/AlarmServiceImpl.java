@@ -43,16 +43,16 @@ public class AlarmServiceImpl implements AlarmService {
         PageHelper.startPage(page, size);
         BaseResponse response = new BaseResponse(StatusCode.Success);
         try {
-            List<Alarm> alarms;
-            Date startTime;
-            Date endTime;
+            Long startTime;
+            Long endTime;
             if(StringUtils.isNotBlank(startTime1)&&StringUtils.isNotBlank(endTime1)) {
-                 startTime = format.parse(startTime1);
-                 endTime = format.parse(endTime1);
+                startTime = format.parse(startTime1).getTime();
+                endTime = format.parse(endTime1).getTime();
             }else{
                 startTime=null;
                 endTime=null;
             }
+            List<Alarm> alarms;
             alarms = alarmDao.queryAll(equipment_id, startTime, endTime);
 
             for (Alarm alarm : alarms) {

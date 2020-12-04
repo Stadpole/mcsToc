@@ -8,7 +8,7 @@
         <result property="operationDetail" column="operation_detail" jdbcType="VARCHAR"/>
         <result property="method" column="method" jdbcType="VARCHAR"/>
         <result property="param" column="param" jdbcType="VARCHAR"/>
-        <result property="time" column="time" jdbcType="TIMESTAMP"/>
+        <result property="time" column="time" jdbcType="BIGINT"/>
     </resultMap>
 
     <!--查询单个-->
@@ -30,7 +30,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="TOperationLogMap">
         select
-          id, user_id, operation_detail, method, param, date_format(time,'%Y-%m-%d') as time
+          id, user_id, operation_detail, method, param, time
         from mcs.t_operation_log
         <where>
             <if test="userId != null">

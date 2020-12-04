@@ -1,4 +1,4 @@
-package com.example.dubbo.provider.common.config;
+package com.example.providerplayback.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

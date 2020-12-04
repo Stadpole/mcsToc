@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * description: author: LiPeng
- **/
 
 public class BaseCommonController implements Serializable {
 	public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";//"yyyy-MM-dd HH:mm:ss";

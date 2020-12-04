@@ -16,7 +16,7 @@ public class KafkaLinkAlarmReceiverAndProducer {
     private AlarmToDBService alarmToDBService;
 
 
-    @KafkaListener(topics = {"NetLinkStatus"})
+   @KafkaListener(topics = {"NetLinkStatus"})
     public void listen(String netLinkAlarm) {
         try {
             log.info("链路告警接收成功==================== telemetries+ " + netLinkAlarm);
